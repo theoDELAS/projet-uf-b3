@@ -1,5 +1,4 @@
 import { StatusBar } from 'expo-status-bar';
-import axios from 'axios'
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import UserService from './services/UserService';
