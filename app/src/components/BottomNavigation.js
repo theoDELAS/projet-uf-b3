@@ -5,6 +5,7 @@ import FavoritesScreen from '../screens/Favorites';
 import PublishScreen from '../screens/Publish';
 import MessagesScreen from '../screens/Messages';
 import ProfileScreen from '../screens/Profile';
+import LoginScreen from '../screens/Login';
 
 const SearchRoute = () => <SearchScreen />;
 
@@ -16,6 +17,8 @@ const MessagesRoute = () => <MessagesScreen />;
 
 const ProfileRoute = () => <ProfileScreen />;
 
+const LoginRoute = () => <LoginScreen />;
+
 const MyComponent = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -24,6 +27,7 @@ const MyComponent = () => {
     { key: 'publish', title: 'Publier', icon: 'expand-all' },
     { key: 'messages', title: 'Messages', icon: 'message' },
     { key: 'profile', title: 'Profil', icon: 'account' },
+    { key: 'login', title: 'Login', icon: 'signin'}
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
@@ -32,6 +36,7 @@ const MyComponent = () => {
     publish: PublishRoute,
     messages: MessagesRoute,
     profile: ProfileRoute,
+    login: LoginRoute
   });
 
   return (
