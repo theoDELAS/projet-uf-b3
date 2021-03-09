@@ -1,43 +1,52 @@
 // import { List } from 'react-native-paper';
-// import React from 'react';
+// import React, { useEffect, useState } from 'react';
 
 // import { StyleSheet, Text, View, ScrollView } from 'react-native';
 // import UserService from './services/UserService';
 
-// export default class App extends React.Component {
+// const App = () => {
 
-//   state = {
-//     userList: []
-//   }
+//   const [users, setUsers] = useState({})
 
-//   componentDidMount() {
+//   useEffect(() => {
+//     getAllUsers()
+//   }, [])
+
+
+//   const getAllUsers = () => {
 //     UserService.getAll()
 //       .then(res=> {
 //         const userList = res.data['hydra:member']
-//         this.setState({userList})
+//         console.log(userList)
+//         setUsers(userList)
+//       }, [])
+//       .catch(err  => {
+//         console.error(err)
 //       })
 //   }
 
-//   render() {
-//     const {userList} = this.state;
-//     console.log(userList.map(user=> user.username))
+//   console.log(users)
+//   console.log(setUsers)
 
-//     return(
-//     <ScrollView style={styles.scrollView}>
+//   // const display = (userList) => {
+//   //   const {users} = props
+//   // }
+
+//   return(
+//     // {userList} = this.state;
+//     // console.log(userList.map(user=> user.username))
+//     <ScrollView>
 //       <List.Section>
 //         <List.Subheader>Utilisateurs</List.Subheader>
 //         {
-//           userList.map(user =>
-//               <List.Item key={user.id} title={user.username} titleStyle={styles.listFont} description={user.email} descriptionStyle={styles.description} left={() => <List.Icon icon="account" />} />
-//             )
+//           users.length > 0 && (
+//             users.map(user => <li key={user.id}>{user.email}</li>)
+//           )
 //         }
 //       </List.Section>
-//         {/* {
-//           userList.map(user=> <Text key={user.id}>{user.username}</Text>)
-//         } */}
 //     </ScrollView>
-//     )
-//   };
+//   )
+// }
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import BottomNavigation from './src/components/BottomNavigation';
