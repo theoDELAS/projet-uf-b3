@@ -1,19 +1,7 @@
 import axios from "axios";
 
 const local = 'localhost'
-const device = '192.168.1.36' 
-
-const cors = require('cors')
-
-const corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200,
-    headers: {
-        "Access-Control-Allow-Headers" : "Content-Type",
-        "Access-Control-Allow-Origin": "http://http://localhost:19006/",
-        "Access-Control-Allow-Methods": "*"
-    },// some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+const device = '192.168.1.8' 
 
 class UserService {
     login(data) {
@@ -29,7 +17,7 @@ class UserService {
     }
 
     getInventory() {
-        return axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`, cors(corsOptions))
+        return axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`)
     }
 }
 
