@@ -27,13 +27,11 @@ const ProfileScreen = () => {
   const getInventory = () => {
     UserService.getInventory()
       .then(res => {
-        const inventory = res.data
+        const userInventory = res.data
+        setInventory(userInventory)
         console.log(inventory)
-        setInventory(inventory)
       }, [])
   }
-
-  console.log(user.steamId)
 
   return (
     <SafeAreaView>

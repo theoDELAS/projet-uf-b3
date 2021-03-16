@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { BottomNavigation, Text } from 'react-native-paper';
+import { BottomNavigation } from 'react-native-paper';
 import SearchScreen from '../screens/Search';
 import FavoritesScreen from '../screens/Favorites';
 import PublishScreen from '../screens/Publish';
 import MessagesScreen from '../screens/Messages';
 import ProfileScreen from '../screens/Profile';
-import LoginScreen from '../screens/Login';
+import RegisterScreen from '../screens/Register';
 
 const SearchRoute = () => <SearchScreen />;
 
@@ -17,7 +17,7 @@ const MessagesRoute = () => <MessagesScreen />;
 
 const ProfileRoute = () => <ProfileScreen />;
 
-const LoginRoute = () => <LoginScreen />;
+const RegisterRoute = () => <RegisterScreen />;
 
 const MyComponent = () => {
   const [index, setIndex] = React.useState(0);
@@ -27,7 +27,7 @@ const MyComponent = () => {
     { key: 'publish', title: 'Publier', icon: 'expand-all' },
     { key: 'messages', title: 'Messages', icon: 'message' },
     { key: 'profile', title: 'Profil', icon: 'account' },
-    { key: 'login', title: 'Login', icon: 'signin'}
+    { key: 'register', title: 'Register', icon: 'account-key'}
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
@@ -36,7 +36,7 @@ const MyComponent = () => {
     publish: PublishRoute,
     messages: MessagesRoute,
     profile: ProfileRoute,
-    login: LoginRoute
+    register: RegisterRoute
   });
 
   return (
