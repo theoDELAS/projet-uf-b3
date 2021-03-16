@@ -52,53 +52,43 @@ const ProfileScreen = () => {
     <SafeAreaView>
         <ScrollView>
         <Text>Mon profil - { user.email }</Text>
-        {/* <List.Section> */}
-        {/* <List.Subheader>Votre inventaire</List.Subheader> */}
         {
           [inventory].map((t) => 
-            // console.log(t.tags)
-
             [t].map((c) => 
-            <Card key={t.appid}>
-            <Card.Title title="Test" />
-            <Card.Content>
-              <Title>{t.market_hash_name}</Title>
-{
-            // console.log(c.tags)
-            c.tags.map((value, key) => {
-              console.log(t.icon_url)
+              <Card key={t.appid}>
+              <Card.Title title="Test" />
+              <Card.Content>
+                <Title>{t.market_hash_name}</Title>
+                {
+                  // console.log(c.tags)
+                  c.tags.map((value, key) => {
+                    console.log(t.icon_url)
 
-              console.log(`${value} valeur > ${key}`)
+                    console.log(`${value} valeur > ${key}`)
 
-              if(key == 4) {
-                return(<Card.Cover source={{ uri: `https://steamcommunity-a.akamaihd.net/economy/image/${t.icon_url}`}} />)
+                    if(key == 4) {
+                      return(<Card.Cover source={{ uri: `https://steamcommunity-a.akamaihd.net/economy/image/${t.icon_url}`}} />)
 
-                // console.log(value)
-                // [value].map((v, k) => {
-                //   if (v == "color") {
-                //     console.log(value[v])
+                      // console.log(value)
+                      // [value].map((v, k) => {
+                      //   if (v == "color") {
+                      //     console.log(value[v])
 
-                //   }
+                      //   }
 
-                // })
-            // //     // console.log(Object.keys(c.tags)[key])
-            // //     // value.map((v) => 
-            // //     // console.log(v)
-            // //     // )
-              }
-              })
-}
+                      // })
+                  // //     // console.log(Object.keys(c.tags)[key])
+                  // //     // value.map((v) => 
+                  // //     // console.log(v)
+                  // //     // )
+                    }
+                  })
+                }
             </Card.Content>
             </Card>
-
             )
-            
-            // <List.Item key={t.appid} title={t.market_hash_name} />
-            // <Text key={i}>{t.market_hash_name}</Text>
-
           )
         }
-      {/* </List.Section> */}
       </ScrollView>
     </SafeAreaView>
   );
