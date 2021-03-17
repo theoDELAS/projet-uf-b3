@@ -5,7 +5,7 @@ const ExploreScreen = ({navigation}) => {
     return (
       <View style={styles.container}>
         <Text>Support Screen</Text>
-        <Button title="Go to details screen" onPress={() => navigation.navigate("Details")} />
+        <Button title="Go to home screen" onPress={() => navigation.navigate("Home")} />
       </View>
     );
   }
