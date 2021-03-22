@@ -15,12 +15,15 @@ import {
     DrawerItem
 } from '@react-navigation/drawer';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import { AuthContext } from '../components/context';
 
 
 export function DrawerContent(props) {
-
     const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+    const { signOut } = React.useContext(AuthContext);
 
     const toggleTheme = () => {
         setIsDarkTheme(!isDarkTheme);
@@ -59,7 +62,7 @@ export function DrawerContent(props) {
                     <Drawer.Section style={styles.bottomDrawerSection}>
                         <DrawerItem
                             icon={({color, size}) => {
-                                <Icon 
+                                <MaterialIcons 
                                     name="home-outline" 
                                     color={color}
                                     size={size}
@@ -70,7 +73,7 @@ export function DrawerContent(props) {
                         />
                          <DrawerItem
                             icon={({color, size}) => {
-                                <Icon 
+                                <MaterialIcons 
                                     name="account-outline" 
                                     color={color}
                                     size={size}
@@ -81,7 +84,7 @@ export function DrawerContent(props) {
                         />
                          <DrawerItem
                             icon={({color, size}) => {
-                                <Icon 
+                                <MaterialIcons 
                                     name="bookmark-outline" 
                                     color={color}
                                     size={size}
@@ -92,7 +95,7 @@ export function DrawerContent(props) {
                         />
                          <DrawerItem
                             icon={({color, size}) => {
-                                <Icon 
+                                <MaterialIcons 
                                     name="settings-outline" 
                                     color={color}
                                     size={size}
@@ -103,7 +106,7 @@ export function DrawerContent(props) {
                         />
                          <DrawerItem
                             icon={({color, size}) => {
-                                <Icon 
+                                <MaterialIcons 
                                     name="account-check-outline" 
                                     color={color}
                                     size={size}
@@ -128,14 +131,14 @@ export function DrawerContent(props) {
             <Drawer.Section style={styles.bottomDrawerSection}>
                 <DrawerItem
                     icon={({color, size}) => {
-                        <Icon 
-                            name="exit-to-app" 
+                        <MaterialIcons 
+                            name='exit-to-app' 
                             color={color}
                             size={size}
                         />
                     }}
                     label="Sign Out"
-                    onPress={() => {}}
+                    onPress={() => {signOut()}}
                 />
             </Drawer.Section>
         </View>
