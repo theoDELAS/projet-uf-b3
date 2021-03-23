@@ -39,10 +39,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
         // TODO: Implement persist() method.
         if ($data->getPlainPassword()) {
             $data->setPassword(
-                $this->_passwordEncoder->encodePassword(
-                    $data,
-                    $data->getPlainPassword()
-                )
+                $data->getPlainPassword()
             );
             $data->eraseCredentials();
         }

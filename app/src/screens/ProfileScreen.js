@@ -5,7 +5,7 @@ const ProfileScreen = ({navigation}) => {
     return (
       <View style={styles.container}>
         <Text>Profile Screen</Text>
-        <Button title="Go to details screen" onPress={() => navigation.navigate("Details")} />
+        <Button title="Go to home screen" onPress={() => navigation.navigate("Home")} />
       </View>
     );
   }

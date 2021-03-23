@@ -10,7 +10,9 @@ import {
     TouchableOpacity,
     Platform,
     StatusBar,
-    Alert
+    Alert,
+    TouchableWithoutFeedback,
+    Keyboard
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -19,8 +21,11 @@ import Feather from 'react-native-vector-icons/Feather';
 import Animated from 'react-native-reanimated';
 import { AuthContext } from '../components/context';
 import Users from '../model/users';
+import axios from 'axios';
+import BcryptReactNative from 'bcrypt-react-native';
 
 const SignInScreen = ({navigation}) => {
+    const device = '192.168.1.8';
     const [data, setData] = useState({
         username: '',
         password: '',
@@ -74,137 +79,148 @@ const SignInScreen = ({navigation}) => {
     }
 
     const loginHandle = (userName, password) => {
-        const foundUser = Users.filter( item => {
-            return userName === item.username && password === item.password
-        });
-
         if (data.username.length === 0 || data.password === 0) {
-            Alert.alert('Wrong input', 'Username or password field cannot be empty', [
-                {text: 'Okay'}
+            Alert.alert('Champs vides', 'Merci de bien vouloir remplir tous les champs', [
+                {text: 'Ok'}
             ]);
             return;
         }
 
-        if (foundUser.length === 0) {
-            Alert.alert('Invalid User !', 'Username or password is incorrect', [
-                {text: 'Okay'}
-            ]);
-            return;
-        }
-        signIn(foundUser);
+        axios.get(
+            `http://${device}:8000/api/users`
+          ).then(res => {
+            const users = res.data['hydra:member'];
+            const foundUser = users.filter( item => {
+                return userName === item.username && password === item.password
+            });
+            if (foundUser.length === 0) {
+                Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
+                    {text: 'Ok'}
+                ]);
+                return;
+            }
+            signIn(foundUser);
+            
+          }).catch(err => {
+            console.log(err.message);
+        });
+        
+
     }
 
     return(
-        <View style={styles.container}>
-            <StatusBar backgroundColor='#009387' barStyle="light-content" />
-            <View style={styles.header}>
-                <Text style={styles.text_header}>Welcome</Text>
-            </View>
-            <Animatable.View 
-                animation="fadeInUpBig"
-                style={styles.footer}
-            >
-               <Text style={styles.text_footer}>Username</Text>
-               <View style={styles.action}>
-                    <FontAwesome
-                        name="user-o"
-                        color="#05375a"
-                        size={20}
-                    />
-                    <TextInput
-                        placeholder="Username"
-                        style={styles.textInput}
-                        autoCapitalize="none"
-                        onChangeText={(val) => textInputChange(val)}
-                    />
-                    {data.check_textInputChange ?
-                    <Animatable.View
-                        animation="bounceIn"
-                        duration={1500}
-                    >
-                        <Feather
-                            name="check-circle"
-                            color="green"
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.container}>
+                <StatusBar backgroundColor='#009387' barStyle="light-content" />
+                <View style={styles.header}>
+                    <Text style={styles.text_header}>Bienvenue !</Text>
+                </View>
+                <Animatable.View 
+                    animation="fadeInUpBig"
+                    style={styles.footer}
+                >
+                <Text style={styles.text_footer}>Username</Text>
+                <View style={styles.action}>
+                        <FontAwesome
+                            name="user-o"
+                            color="#05375a"
                             size={20}
                         />
-                    </Animatable.View>
-                    : null}
-               </View>
-               {data.isValidUser ? null :
-                <Animatable.View
-                    animation="fadeInLeft"
-                    duration={500}
-                >
-                    <Text style={styles.errorMsg}>Votre username doit contenir 4 caractères minimum.</Text>
-                </Animatable.View>
-                }
-
-               <Text style={[styles.text_footer, {marginTop:35}]}>Password</Text>
-               <View style={styles.action}>
-                    <FontAwesome
-                        name="lock"
-                        color="#05375a"
-                        size={20}
-                    />
-                    <TextInput
-                        placeholder="Your Password"
-                        secureTextEntry={data.secureTextEntry ? true : false}
-                        style={styles.textInput}
-                        autoCapitalize="none"
-                        onChangeText={(val) => handlePasswordChange(val)}
-                    />
-                    <TouchableOpacity
-                        onPress={updateSecureTextEntry}
+                        <TextInput
+                            placeholder="Username"
+                            style={styles.textInput}
+                            autoCapitalize="none"
+                            onChangeText={(val) => textInputChange(val)}
+                        />
+                        {data.check_textInputChange ?
+                        <Animatable.View
+                            animation="bounceIn"
+                            duration={1500}
+                        >
+                            <Feather
+                                name="check-circle"
+                                color="green"
+                                size={20}
+                            />
+                        </Animatable.View>
+                        : null}
+                </View>
+                {data.isValidUser ? null :
+                    <Animatable.View
+                        animation="fadeInLeft"
+                        duration={500}
                     >
-                        {data.secureTextEntry ?
-                        <Feather
-                            name="eye-off"
+                        <Text style={styles.errorMsg}>Votre username doit contenir 4 caractères minimum.</Text>
+                    </Animatable.View>
+                    }
+
+                <Text style={[styles.text_footer, {marginTop:35}]}>Mot de passe</Text>
+                <View style={styles.action}>
+                        <FontAwesome
+                            name="lock"
+                            color="#05375a"
+                            size={20}
+                        />
+                        <TextInput
+                            placeholder="Votre mot de passe"
+                            secureTextEntry={data.secureTextEntry ? true : false}
+                            style={styles.textInput}
+                            autoCapitalize="none"
+                            onChangeText={(val) => handlePasswordChange(val)}
+                        />
+                        <TouchableOpacity
+                            onPress={updateSecureTextEntry}
+                        >
+                            {data.secureTextEntry ?
+                            <Feather
+                                name="eye-off"
+                                color="grey"
+                                size={20}
+                            />
+                            : 
+                            <Feather
+                            name="eye"
                             color="grey"
                             size={20}
-                        />
-                        : 
-                        <Feather
-                        name="eye"
-                        color="grey"
-                        size={20}
-                        />
-                        }
-                    </TouchableOpacity>
-               </View>
-               {data.isValidPassword ? null :
-                <Animatable.View
-                    animation="fadeInLeft"
-                    duration={500}
-                >
-                    <Text style={styles.errorMsg}>Votre mot de passe doit contenir 6 caractères minimum.</Text>
-                </Animatable.View>
-               }
-
-               <View style={styles.button}>
-                   <TouchableOpacity style={styles.signIn} onPress={() => { loginHandle(data.username, data.password) }}>
-                        <LinearGradient
-                            colors={['#08d4c4', '#01ab9d']}
-                            style={styles.signIn}
-                        >
-                            <Text style={[styles.textSign, {color:'#fff'}]}>Sign In</Text>
-                        </LinearGradient>
-                   </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('SignUpScreen')}
-                        style={[styles.signIn, {
-                            borderColor: '#009387',
-                            borderWidth: 1,
-                            marginTop: 15
-                        }]}
+                            />
+                            }
+                        </TouchableOpacity>
+                </View>
+                {data.isValidPassword ? null :
+                    <Animatable.View
+                        animation="fadeInLeft"
+                        duration={500}
                     >
-                        <Text style={[styles.textSign, {
-                            color: '#009387'
-                        }]}>Sign Up</Text>
+                        <Text style={styles.errorMsg}>Votre mot de passe doit contenir 6 caractères minimum.</Text>
+                    </Animatable.View>
+                }
+
+                <View style={styles.button}>
+                    <TouchableOpacity style={styles.signIn} onPress={() => { loginHandle(data.username, data.password) }}>
+                            <LinearGradient
+                                colors={['#08d4c4', '#01ab9d']}
+                                style={styles.signIn}
+                            >
+                                <Text style={[styles.textSign, {color:'#fff'}]}>Se connecter</Text>
+                            </LinearGradient>
                     </TouchableOpacity>
-               </View>
-           </Animatable.View>
-        </View>
+
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('SignUpScreen')}
+                            style={[styles.signIn, {
+                                borderColor: '#009387',
+                                borderWidth: 1,
+                                marginTop: 15
+                            }]}
+                        >
+                            <Text style={[styles.textSign, {
+                                color: '#009387'
+                            }]}>S'inscrire</Text>
+                        </TouchableOpacity>
+                </View>
+            </Animatable.View>
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 

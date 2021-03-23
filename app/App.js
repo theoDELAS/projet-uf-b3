@@ -14,12 +14,12 @@ import { DrawerContent } from './src/screens/DrawerContent';
 import { ActivityIndicator, View } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [userToken, setUserToken] = useState(null);
+  const device = '192.168.1.8'
 
   const initialLoginState = {
     isLoading: true,
@@ -71,7 +71,7 @@ const App = () => {
     signIn: async(foundUser) => {
       // setUserToken('ojhb');
       // setIsLoading(false);
-      const userToken = String(foundUser[0].userToken);
+      const userToken = String(foundUser[0].token);
       const userName = foundUser[0].username;
 
       try {
@@ -92,7 +92,22 @@ const App = () => {
       }
       dispatch({type: 'LOGOUT'});
     },
-    signUp: () => {
+    signUp: async(userLogs) => {
+      try {
+        await axios.post(
+          `http://${device}:8000/api/users`,
+          userLogs
+        ).then(res => {
+          const userToken = userLogs['token'];
+          AsyncStorage.setItem('userToken', userToken)
+          dispatch({type: 'REGISTER', id: userLogs['username'], token: userToken});
+        }).catch(err => {
+          console.log(err.message);
+        })
+      } catch (e) {
+        console.log(e);
+      }
+      
       // setUserToken('erfg');
       // setIsLoading(false);
     },
