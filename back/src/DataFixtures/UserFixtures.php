@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
-    const USER_COUNT = 10;
+    const USER_COUNT = 5;
 
     private $passwordEncoder;
 
@@ -30,7 +30,8 @@ class UserFixtures extends Fixture
             // $password = $this->passwordEncoder->encodePassword($user, 'password');
             $user->setUsername($faker->userName)
                  ->setEmail($faker->email)
-                 ->setPassword('password'); 
+                 ->setPassword('password')
+                 ->setToken(bin2hex(random_bytes(10))); 
 
             $manager->persist($user);
         }
