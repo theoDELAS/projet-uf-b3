@@ -14,8 +14,10 @@ import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 import { AuthContext } from '../components/context';
 
@@ -60,60 +62,16 @@ export function DrawerContent(props) {
                     </View>
 
                     <Drawer.Section style={styles.bottomDrawerSection}>
-                        <DrawerItem
-                            icon={({color, size}) => {
-                                <MaterialIcons 
-                                    name="home-outline" 
-                                    color={color}
-                                    size={size}
-                                />
-                            }}
-                            label="Home"
-                            onPress={() => {props.navigation.navigate('Home')}}
-                        />
-                         <DrawerItem
-                            icon={({color, size}) => {
-                                <MaterialIcons 
-                                    name="account-outline" 
-                                    color={color}
-                                    size={size}
-                                />
-                            }}
-                            label="Profile"
-                            onPress={() => {props.navigation.navigate('Profile')}}
-                        />
-                         <DrawerItem
-                            icon={({color, size}) => {
-                                <MaterialIcons 
-                                    name="bookmark-outline" 
-                                    color={color}
-                                    size={size}
-                                />
-                            }}
-                            label="Bookmark"
-                            onPress={() => {props.navigation.navigate('BookmarkScreen')}}
-                        />
                          <DrawerItem
                             icon={({color, size}) => {
                                 <MaterialIcons 
                                     name="settings-outline" 
-                                    color={color}
+                                    color="#000"
                                     size={size}
                                 />
                             }}
                             label="Settings"
                             onPress={() => {props.navigation.navigate('SettingsScreen')}}
-                        />
-                         <DrawerItem
-                            icon={({color, size}) => {
-                                <MaterialIcons 
-                                    name="account-check-outline" 
-                                    color={color}
-                                    size={size}
-                                />
-                            }}
-                            label="Support"
-                            onPress={() => {props.navigation.navigate('SupportScreen')}}
                         />
                     </Drawer.Section>
                     <Drawer.Section title="Preferences">
