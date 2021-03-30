@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native'
+import { color } from 'react-native-reanimated';
 
 import UserService from '../../services/UserService'
 
@@ -56,29 +57,44 @@ const ProfileScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
-<<<<<<< HEAD
         {/* <Text>Profile Screen</Text> */}
         {
           [inventory].map((t, key) => {
             const arr = []
             for(let i in t) {
-              const tester = t[i]
-              console.log(key)
-              arr.push(<Text key={tester.classid}>{tester.market_hash_name}</Text>)
+              const tester = t[i];
+              // console.log(tester)
+              // [tester].map((p) => {
+              //   console.log(p)
+              //   for(let i in p) {
+              //     if (i == "tags") {
+              //       console.log(p[i])
+              //     }
+              //   }
+              // })
+              console.log(tester.tags);
+              [tester.tags].map((i, jey) => {
+                let colored = ''
+                for (let j in i) {
+                  const oui = i[j]
+                  console.log(oui.color)
+                  if (oui.category == "Rarity") {
+                    colored += oui.color
+                  }
+                }
+                arr.push(<Text key={tester.classid}>{tester.market_hash_name} ---- {colored}</Text>)
+
+              })
+              return arr
               // {console.log(key)}
 
             }
-            return arr
             // return(
               
             // )
           })
         }
         <Button title="Go to home screen" onPress={() => navigation.navigate("Home")} />
-=======
-        <Text>Profile Screen</Text>
-        <Button title="Go to home screen" onPress={() => navigation.navigate("Search")} />
->>>>>>> 7682c2982422440a76c9704baffa530a16b02bea
       </View>
     );
   }
