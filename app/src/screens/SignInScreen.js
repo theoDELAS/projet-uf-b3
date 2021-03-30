@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { 
     View, 
     Text, 
-    Button, 
     StyleSheet, 
-    Dimensions, 
-    Image,
     TextInput,
     TouchableOpacity,
     Platform,
@@ -18,11 +15,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import Animated from 'react-native-reanimated';
 import { AuthContext } from '../components/context';
-import Users from '../model/users';
 import axios from 'axios';
-import BcryptReactNative from 'bcrypt-react-native';
 
 const SignInScreen = ({navigation}) => {
     const device = '192.168.1.8';

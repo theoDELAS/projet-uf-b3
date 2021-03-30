@@ -5,63 +5,79 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import HomeScreen from './HomeScreen';
-import DetailsScreen from './DetailsScreen';
+import SearchScreen from './SearchScreen';
+import FavoritesScreen from './FavoritesScreen';
+import PublishScreen from './PublishScreen';
+import MessagesScreen from './MessagesScreen';
 import ProfileScreen from './ProfileScreen';
-import ExploreScreen from './ExploreScreen';
+
 
 const Tab = createMaterialBottomTabNavigator();
 
-const HomeStack = createStackNavigator();
-const DetailsStack = createStackNavigator();
+const SearchStack = createStackNavigator();
+const FavoritesStack = createStackNavigator();
+const PublishStack = createStackNavigator();
+const MessagesStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 
 const MainTabScreen = () => (
         <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName="Rechercher"
         activeColor="#fff"
         barStyle={{ backgroundColor: 'tomato' }}
         >
         <Tab.Screen
-            name="Home"
-            component={HomeStackScreen}
+            name="Search"
+            component={SearchStackScreen}
             options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Rechercher',
             tabBarColor: '#009387',
             tabBarIcon: ({ color }) => (
-                <Icon name="ios-home" color={color} size={26} />
+                <Icon name="ios-search" color={color} size={26} />
             ),
             }}
         />
         <Tab.Screen
-            name="Notifications"
-            component={DetailsStackScreen}
+            name="Favorites"
+            component={FavoritesStackScreen}
             options={{
-            tabBarLabel: 'Updates',
+            tabBarLabel: 'Favoris',
             tabBarColor: '#1f65ff',
             tabBarIcon: ({ color }) => (
-                <Icon name="ios-notifications" color={color} size={26} />
+                <Icon name="ios-heart" color={color} size={26} />
+            ),
+            }}
+        />
+        <Tab.Screen
+            name="Auction"
+            component={PublishStackScreen}
+            options={{
+            tabBarLabel: 'Publier',
+            tabBarColor: '#694fad',
+            tabBarIcon: ({ color }) => (
+                <Icon name="ios-add-circle" color={color} size={26} />
+            ),
+            }}
+        />
+        <Tab.Screen
+            name="Messages"
+            component={MessagesStackScreen}
+            options={{
+            tabBarLabel: 'Messages',
+            tabBarColor: '#d02860',
+            tabBarIcon: ({ color }) => (
+                <Icon name="ios-chatbubble" color={color} size={26} />
             ),
             }}
         />
         <Tab.Screen
             name="Profile"
-            component={ProfileScreen}
+            component={ProfileStackScreen}
             options={{
-            tabBarLabel: 'Profile',
-            tabBarColor: '#694fad',
+            tabBarLabel: 'Profil',
+            tabBarColor: '#dfdfdf',
             tabBarIcon: ({ color }) => (
                 <Icon name="ios-person" color={color} size={26} />
-            ),
-            }}
-        />
-        <Tab.Screen
-            name="Explore"
-            component={ExploreScreen}
-            options={{
-            tabBarLabel: 'Explore',
-            tabBarColor: '#d02860',
-            tabBarIcon: ({ color }) => (
-                <Icon name="ios-aperture" color={color} size={26} />
             ),
             }}
         />
@@ -70,9 +86,8 @@ const MainTabScreen = () => (
 
 export default MainTabScreen;
 
-
-const HomeStackScreen = ({navigation}) => (
-  <HomeStack.Navigator screenOptions={{
+const SearchStackScreen = ({navigation}) => (
+  <SearchStack.Navigator screenOptions={{
     headerStyle: {
       backgroundColor: '#009387'
     },
@@ -81,8 +96,8 @@ const HomeStackScreen = ({navigation}) => (
       fontWeight: 'bold'
     }
   }}>
-    <HomeStack.Screen name="Home" component={HomeScreen} options={{
-      title:'Overview',
+    <SearchStack.Screen name="Search" component={SearchScreen} options={{
+      title:'Search',
       headerLeft: () => (
         <Icon.Button 
           name="ios-menu" 
@@ -94,11 +109,11 @@ const HomeStackScreen = ({navigation}) => (
         }></Icon.Button>
       )
     }} />
-  </HomeStack.Navigator>
+  </SearchStack.Navigator>
 );
 
-const DetailsStackScreen = ({navigation}) => (
-  <DetailsStack.Navigator screenOptions={{
+const FavoritesStackScreen = ({navigation}) => (
+  <FavoritesStack.Navigator screenOptions={{
     headerStyle: {
       backgroundColor: '#1f65ff'
     },
@@ -107,8 +122,8 @@ const DetailsStackScreen = ({navigation}) => (
       fontWeight: 'bold'
     }
   }}>
-    <DetailsStack.Screen name="Details" component={DetailsScreen} options={{
-      title:'Overview',
+    <FavoritesStack.Screen name="Favorites" component={FavoritesScreen} options={{
+      title:'Favorites',
       headerLeft: () => (
         <Icon.Button 
           name="ios-menu" 
@@ -120,5 +135,83 @@ const DetailsStackScreen = ({navigation}) => (
         }></Icon.Button>
       )
     }} />
-  </DetailsStack.Navigator>
+  </FavoritesStack.Navigator>
+);
+
+const PublishStackScreen = ({navigation}) => (
+  <PublishStack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#694fad'
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    }
+  }}>
+    <PublishStack.Screen name="Publish" component={PublishScreen} options={{
+      title:'Publish',
+      headerLeft: () => (
+        <Icon.Button 
+          name="ios-menu" 
+          size={25} 
+          backgroundColor="#694fad" 
+          onPress={() => {
+            navigation.openDrawer()
+          }
+        }></Icon.Button>
+      )
+    }} />
+  </PublishStack.Navigator>
+);
+
+const MessagesStackScreen = ({navigation}) => (
+  <MessagesStack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#d02860'
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    }
+  }}>
+    <MessagesStack.Screen name="Messages" component={MessagesScreen} options={{
+      title:'Messages',
+      headerLeft: () => (
+        <Icon.Button 
+          name="ios-menu" 
+          size={25} 
+          backgroundColor="#d02860" 
+          onPress={() => {
+            navigation.openDrawer()
+          }
+        }></Icon.Button>
+      )
+    }} />
+  </MessagesStack.Navigator>
+);
+
+const ProfileStackScreen = ({navigation}) => (
+  <ProfileStack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#dfdfdf'
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    }
+  }}>
+    <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{
+      title:'Profile',
+      headerLeft: () => (
+        <Icon.Button 
+          name="ios-menu" 
+          size={25} 
+          backgroundColor="#dfdfdf" 
+          onPress={() => {
+            navigation.openDrawer()
+          }
+        }></Icon.Button>
+      )
+    }} />
+  </ProfileStack.Navigator>
 );

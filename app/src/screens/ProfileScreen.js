@@ -56,6 +56,7 @@ const ProfileScreen = ({navigation}) => {
 
     return (
       <View style={styles.container}>
+<<<<<<< HEAD
         {/* <Text>Profile Screen</Text> */}
         {
           [inventory].map((t, key) => {
@@ -74,6 +75,10 @@ const ProfileScreen = ({navigation}) => {
           })
         }
         <Button title="Go to home screen" onPress={() => navigation.navigate("Home")} />
+=======
+        <Text>Profile Screen</Text>
+        <Button title="Go to home screen" onPress={() => navigation.navigate("Search")} />
+>>>>>>> 7682c2982422440a76c9704baffa530a16b02bea
       </View>
     );
   }

@@ -4,8 +4,8 @@ import { View, Text, Button, StyleSheet } from 'react-native'
 const ExploreScreen = ({navigation}) => {
     return (
       <View style={styles.container}>
-        <Text>Support Screen</Text>
-        <Button title="Go to home screen" onPress={() => navigation.navigate("Home")} />
+        <Text>Publier une annonce</Text>
+        <Button title="Retourner à l'écran de recherche" onPress={() => navigation.navigate("Search")} />
       </View>
     );
   }
