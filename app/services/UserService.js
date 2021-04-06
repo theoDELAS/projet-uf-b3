@@ -1,11 +1,23 @@
 import axios from "axios";
 
 const local = 'localhost'
-const device = '192.168.1.36' 
+const device = '192.168.1.8' 
 
 class UserService {
+    login(data) {
+        return axios.post(`http://${device}:8000/api/login`, data)
+    }
+
     getAll() {
-        return axios.get(`http://${local}:8000/api/users`)
+        return axios.get(`http://${device}:8000/api/users`)
+    }
+
+    getOne() {
+        return axios.get(`http://${device}:8000/api/users/20`)
+    }
+
+    getInventory() {
+        return axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`)
     }
 }
 
