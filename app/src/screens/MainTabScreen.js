@@ -30,7 +30,7 @@ const MainTabScreen = () => (
             name="Search"
             component={SearchStackScreen}
             options={{
-            tabBarLabel: 'Rechercher',
+            tabBarLabel: false,
             tabBarColor: '#009387',
             tabBarIcon: ({ color }) => (
                 <Icon name="ios-search" color={color} size={26} />
@@ -41,7 +41,7 @@ const MainTabScreen = () => (
             name="Favorites"
             component={FavoritesStackScreen}
             options={{
-            tabBarLabel: 'Favoris',
+            tabBarLabel: false,
             tabBarColor: '#1f65ff',
             tabBarIcon: ({ color }) => (
                 <Icon name="ios-heart" color={color} size={26} />
@@ -52,7 +52,7 @@ const MainTabScreen = () => (
             name="Auction"
             component={PublishStackScreen}
             options={{
-            tabBarLabel: 'Publier',
+            tabBarLabel: false,
             tabBarColor: '#694fad',
             tabBarIcon: ({ color }) => (
                 <Icon name="ios-add-circle" color={color} size={26} />
@@ -63,7 +63,7 @@ const MainTabScreen = () => (
             name="Messages"
             component={MessagesStackScreen}
             options={{
-            tabBarLabel: 'Messages',
+            tabBarLabel: false,
             tabBarColor: '#d02860',
             tabBarIcon: ({ color }) => (
                 <Icon name="ios-chatbubble" color={color} size={26} />
@@ -74,7 +74,7 @@ const MainTabScreen = () => (
             name="Profile"
             component={ProfileStackScreen}
             options={{
-            tabBarLabel: 'Profil',
+            tabBarLabel: false,
             tabBarColor: '#dfdfdf',
             tabBarIcon: ({ color }) => (
                 <Icon name="ios-person" color={color} size={26} />

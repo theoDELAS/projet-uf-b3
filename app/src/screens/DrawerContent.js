@@ -14,7 +14,6 @@ import {
     DrawerContentScrollView,
     DrawerItem
 } from '@react-navigation/drawer';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -67,7 +66,7 @@ export function DrawerContent(props) {
                                 <MaterialIcons 
                                     name="settings-outline" 
                                     color="#000"
-                                    size={size}
+                                    size={24}
                                 />
                             }}
                             label="Settings"
