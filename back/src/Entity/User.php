@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -64,6 +66,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $token;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Auction::class, mappedBy="seller", orphanRemoval=true)
+     */
+    private $auctions;
+
+    public function __construct()
+    {
+        $this->auctions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -173,6 +185,36 @@ class User implements UserInterface
     public function setToken(string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Auction[]
+     */
+    public function getAuctions(): Collection
+    {
+        return $this->auctions;
+    }
+
+    public function addAuction(Auction $auction): self
+    {
+        if (!$this->auctions->contains($auction)) {
+            $this->auctions[] = $auction;
+            $auction->setSeller($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuction(Auction $auction): self
+    {
+        if ($this->auctions->removeElement($auction)) {
+            // set the owning side to null (unless already changed)
+            if ($auction->getSeller() === $this) {
+                $auction->setSeller(null);
+            }
+        }
 
         return $this;
     }

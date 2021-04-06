@@ -1,0 +1,60 @@
+{
+    "name": "facile-it/openid-bundle",
+    "description": "A Symfony bundle to integrate OpenId login",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/facile-it/openid-bundle/issues"
+    },
+    "keywords": [
+        "symfony",
+        "bundle",
+        "openid"
+    ],
+    "authors": [
+        {
+            "name": "Alessandro Lai",
+            "email": "alessandro.lai85@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Facile\\OpenIdBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Facile\\OpenIdBundle\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.1",
+        "lcobucci/jwt": "^3.2",
+        "symfony/config": "^3.4|^4.0",
+        "symfony/dependency-injection": "^3.4|^4.0",
+        "symfony/http-kernel": "^3.4|^4.0",
+        "symfony/routing": "^3.4|^4.0",
+        "symfony/security-bundle": "^3.4|^4.0"
+    },
+    "require-dev": {
+        "drew/debug-statements-fixers": "^0.5",
+        "facile-it/facile-coding-standard": "^0.3",
+        "jangregor/phpstan-prophecy": "^0.3",
+        "php-coveralls/php-coveralls": "^2.1",
+        "phpspec/prophecy": "^1.8",
+        "phpstan/phpstan": "^0.11.3",
+        "phpstan/phpstan-phpunit": "^0.11",
+        "phpunit/phpunit": "^7.5|^8.0.5",
+        "symfony/browser-kit": "^3.4|^4.0",
+        "symfony/framework-bundle": "^3.4|^4.0",
+        "symfony/phpunit-bridge": "^4.2"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "cs-check": "php-cs-fixer fix --ansi --verbose --diff --dry-run",
+        "cs-fix": "php-cs-fixer fix --ansi --verbose"
+    }
+}
