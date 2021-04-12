@@ -3,8 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import MainTabScreen from './src/screens/MainTabScreen';
-import SettingsScreen from './src/screens/SettingsScreen';
-import BookmarkScreen from './src/screens/BookmarkScreen';
 
 import RootStackScreen from './src/screens/RootStackScreen';
 import { AuthContext } from './src/components/context';
@@ -70,8 +68,16 @@ const App = () => {
     signIn: async(foundUser) => {
       // setUserToken('ojhb');
       // setIsLoading(false);
+      
+      const userId = foundUser[0].id;
       const userToken = String(foundUser[0].token);
       const userName = foundUser[0].username;
+
+      try {
+        await AsyncStorage.setItem('userId', userId.toString())
+      } catch (e) {
+        console.log(e);
+      }
 
       try {
         userToken = 'dfdfdf';
@@ -97,7 +103,7 @@ const App = () => {
           `http://${device}:8000/api/users`,
           userLogs
         ).then(res => {
-          const userToken = userLogs['token'];
+          const userToken = userLogs['token'];          
           AsyncStorage.setItem('userToken', userToken)
           dispatch({type: 'REGISTER', id: userLogs['username'], token: userToken});
         }).catch(err => {
@@ -140,11 +146,9 @@ const App = () => {
       <NavigationContainer>
         { loginState.userToken !== null ? (
           <Drawer.Navigator drawerContent={props => <DrawerContent { ...props } />}>
-            <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-            <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
-            <Drawer.Screen name="BookmarkScreen" component={BookmarkScreen} />
+            <Drawer.Screen name="HomeDrawer" auth={authContext} component={MainTabScreen} />
           </Drawer.Navigator>
-        )
+       )
       :
         <RootStackScreen/>
       }

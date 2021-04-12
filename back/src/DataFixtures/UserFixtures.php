@@ -27,6 +27,15 @@ class UserFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $users = [];
 
+        // Admin User
+        $adminUser = new User();
+        $adminUser->setUsername('admin')
+                ->setEmail('admin@admin.com')
+                ->setPassword('password')
+                ->setToken(bin2hex(random_bytes(10)));
+                
+        $manager->persist($adminUser);
+
         // Basic User
         for ($i = 1; $i < self::USER_COUNT; $i++) {
             $user = new User();
