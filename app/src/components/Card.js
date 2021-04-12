@@ -3,10 +3,9 @@ import { Animated, Text, Image, StyleSheet } from 'react-native';
 // import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 
 // const image = { uri: "https://reactjs.org/logo-og.png" };
-const ItemCard = ({ title, y }) => {
-    const translateY = y;
+const ItemCard = ({ title }) => {
     return (
-        <Animated.View style={styles.item, {transform: [{translateY}]}}>
+        <Animated.View style={styles.item}>
             <Text style={styles.title}>{title}</Text>
         </Animated.View>
     );
