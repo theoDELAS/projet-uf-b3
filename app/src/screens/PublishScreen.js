@@ -50,7 +50,9 @@ const PublishScreen = ({navigation}) => {
                 <ItemCard title={item.name} key={index} />
               ))
             ) : (
-              <Text>Vous n'avez aucun skin à vendre</Text>
+              <View style={styles.noDataCntnr}>
+                <Text style={styles.noDataText}>Vous n'avez aucun skin à vendre</Text>
+              </View>
             )
         )
       }
