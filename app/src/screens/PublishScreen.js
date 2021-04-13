@@ -15,7 +15,7 @@ const PublishScreen = ({navigation}) => {
 
 
   const getAllProducts = async () => {
-    const device = '192.168.1.8';
+    const device = '192.168.1.36';
     let userId = null;
 
     try {
@@ -24,7 +24,7 @@ const PublishScreen = ({navigation}) => {
       console.log('error');
     }
 
-    await axios.get(`http://${device}:8000/api/products?user=${userId}`)
+    await axios.get(`http://${device}:8000/api/product_tests?user=${userId}`)
     .then(res => {
       let array = [...userProducts];
       res.data['hydra:member'].map(item => {

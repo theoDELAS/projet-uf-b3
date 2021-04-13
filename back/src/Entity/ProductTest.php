@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductTestRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ProductTestRepository::class)
  * @ApiResource
+ * @ApiFilter(SearchFilter::class, properties={"user": "partial"})
  */
 class ProductTest
 {

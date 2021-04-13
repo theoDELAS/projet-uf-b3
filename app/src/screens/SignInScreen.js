@@ -18,6 +18,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../components/context';
 import axios from 'axios';
 import UserService from '../../services/UserService'
+import slugify from 'slugify'
 
 const SignInScreen = ({navigation}) => {
 
@@ -171,10 +172,17 @@ const SignInScreen = ({navigation}) => {
                     }
                 }
                 result.map((item) => {
-                    return axios.post(`http://${device}:8000/api/product_tests`, {
+                    return axios.post(`http://${device}:8000/api/products`, {
                         classId: item.classid,
+                        description: "ndienfiq",
                         name: item.market_hash_name,
-                        user: `http://${device}:8000/api/users/${foundUser[0].id}`
+                        user: `http://${device}:8000/api/users/${foundUser[0].id}`,
+                        slug: slugify(item.market_hash_name, {
+                            replacement: '-',
+                            remove: '|',
+                            lower: true
+                        }),
+                        image: item.icon_url
                     }).then((reponse) => {
                         console.log("OK")
                     }).catch(err => console.log(err));
