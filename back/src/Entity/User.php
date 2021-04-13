@@ -74,6 +74,11 @@ class User implements UserInterface
     private $auctions;
 
     /**
+     * @ORM\OneToMany(targetEntity=ProductTest::class, mappedBy="user")
+     */
+    private $productTests;
+    
+    /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="user", orphanRemoval=true)
      */
     private $product;
@@ -81,6 +86,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->auctions = new ArrayCollection();
+        $this->productTests = new ArrayCollection();
         $this->product = new ArrayCollection();
     }
 
@@ -227,6 +233,21 @@ class User implements UserInterface
     }
 
     /**
+     * @return Collection|ProductTest[]
+     */
+    public function getProductTests(): Collection
+    {
+        return $this->productTests;
+    }
+
+    public function addProductTest(ProductTest $productTest): self
+    {
+        if (!$this->productTests->contains($productTest)) {
+            $this->productTests[] = $productTest;
+            $productTest->setUser($this);
+        }
+    }
+    /**
      * @return Collection|Product[]
      */
     public function getProduct(): Collection
@@ -244,6 +265,15 @@ class User implements UserInterface
         return $this;
     }
 
+    public function removeProductTest(ProductTest $productTest): self
+    {
+        if ($this->productTests->removeElement($productTest)) {
+            // set the owning side to null (unless already changed)
+            if ($productTest->getUser() === $this) {
+                $productTest->setUser(null);
+            }
+        }
+    }
     public function removeProduct(Product $product): self
     {
         if ($this->product->removeElement($product)) {
