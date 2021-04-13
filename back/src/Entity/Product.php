@@ -26,7 +26,7 @@ class Product
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $slug;
 
@@ -36,7 +36,7 @@ class Product
     private $image;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 

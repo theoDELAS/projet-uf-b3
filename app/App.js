@@ -18,7 +18,7 @@ import axios from 'axios';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-  const device = '192.168.1.8'
+  const device = '192.168.1.36'
 
   const initialLoginState = {
     isLoading: true,

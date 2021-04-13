@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
     View, 
     Text, 
@@ -17,9 +17,15 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../components/context';
 import axios from 'axios';
+import UserService from '../../services/UserService'
 
 const SignInScreen = ({navigation}) => {
-    const device = '192.168.1.8';
+
+    const _isMounted = false;
+
+    const [inventory, setInventory] = useState({});
+    const [products, setProducts] = useState({});
+    const device = '192.168.1.36';
     const [data, setData] = useState({
         username: '',
         password: '',
@@ -28,6 +34,53 @@ const SignInScreen = ({navigation}) => {
         isValidUser: true,
         isValidPassword: true,
     });
+
+    const state = {
+        isLoading: true
+    }
+
+    const componentDidMount = () => {
+        _isMounted = true
+
+        axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`).then(response => {
+            if (_isMounted) {
+            }
+        })        
+    }
+
+    const componentWillUnmount = () => {
+        _isMounted = false;
+    }
+    // useEffect(() => {
+    //     getInventory();
+    // }, [])
+
+    // const getInventory = () => {
+    //     console.log('azert :');
+        // UserService.getInventory()
+        //     .then(res => {
+        //         console.log(res)
+        //     console.log('inventory')
+        //     console.log(inventory)
+        //     const inventory = res.data
+        //     const result = []
+        //     for(const test in inventory.rgDescriptions) {
+        //         const tried = inventory.rgDescriptions[test]
+        //         result.push(tried)
+        //         for(let index = 0; index < result.length; index++) {
+        //             axios.post('/api/products', {
+        //                 name: tried.market_hash_name,
+        //                 image: tried.icon_url
+        //             })
+        //         }
+        //         if (!result) {
+        //         console.log("ERROR")
+        //         } else {
+        //         setInventory(result)
+        //         }
+        //     }
+        // }, [])
+    // }
 
     const { signIn } = React.useContext(AuthContext);
 
@@ -94,6 +147,40 @@ const SignInScreen = ({navigation}) => {
                 return;
             }
             signIn(foundUser);
+            console.log("FOUNDUSER")
+            console.log(parseInt(foundUser[0].id))
+            console.log(Number.isInteger(parseInt(foundUser[0].id)))
+            console.log('yes');
+            const userid = parseInt(foundUser[0].id)
+            // try {
+                axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`)
+                .then(res => {
+                console.log('ah')
+                // console.log(res)
+            //     console.log('inventory')
+            //     console.log(inventory)
+                const inventory = res.data
+                const result = []
+                for(const test in inventory.rgDescriptions) {
+                    const tried = inventory.rgDescriptions[test]
+                    result.push(tried)
+                    if (!result) {
+                    console.log("ERROR")
+                    } else {
+                    setInventory(result)
+                    }
+                }
+                result.map((item) => {
+                    return axios.post(`http://${device}:8000/api/product_tests`, {
+                        classId: item.classid,
+                        name: item.market_hash_name,
+                        user: `http://${device}:8000/api/users/${foundUser[0].id}`
+                    }).then((reponse) => {
+                        console.log("OK")
+                    }).catch(err => console.log(err));
+                })
+            })
+            
             
           }).catch(err => {
             console.log(err.message);
