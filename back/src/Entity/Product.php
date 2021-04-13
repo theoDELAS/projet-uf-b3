@@ -5,10 +5,11 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
- * 
+ * @ORM\HasLifecycleCallbacks()
  * @ApiResource
  */
 class Product
@@ -44,6 +45,25 @@ class Product
      * @ORM\OneToOne(targetEntity=Auction::class, mappedBy="product", cascade={"persist", "remove"})
      */
     private $auction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="product")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function initializeSlug()
+    {
+        if(empty($this->slug))
+        {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->name);
+        }
+    }
 
     public function getId(): ?int
     {
@@ -116,6 +136,18 @@ class Product
         }
 
         $this->auction = $auction;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
