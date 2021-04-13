@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useReducer, useMemo } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { AuthContext } from '../components/context';
+import { View, Text, Button, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ItemCard from '../components/Card';
+
 import axios from 'axios';
 
 const PublishScreen = ({navigation}) => {
   const [userProducts, setUserProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     getAllProducts();
@@ -22,7 +24,7 @@ const PublishScreen = ({navigation}) => {
       console.log('error');
     }
 
-    axios.get(`http://${device}:8000/api/products?user=${userId}`)
+    await axios.get(`http://${device}:8000/api/products?user=${userId}`)
     .then(res => {
       let array = [...userProducts];
       res.data['hydra:member'].map(item => {
@@ -30,16 +32,30 @@ const PublishScreen = ({navigation}) => {
       })
       setUserProducts(res.data['hydra:member']);
     })
+    .then(() => {
+      setIsLoading(false);
+    })
   }
   
-  return userProducts.map(item => {
-    return (
-      <View style={styles.container}>
-        <Text>{item.name}</Text>
-        <Button title="Retourner à l'écran de recherche" onPress={() => navigation.navigate("Search")} />
-      </View>
-    )
-  })
+  return (
+    <SafeAreaView style={styles.container}>
+      {
+        isLoading ? (
+          <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+            <ActivityIndicator size="large" />
+          </View>
+        ) : (
+          userProducts.length > 0 ? (
+              userProducts.map((item, index) => (
+                <ItemCard title={item.name} key={index} />
+              ))
+            ) : (
+              <Text>Vous n'avez aucun skin à vendre</Text>
+            )
+        )
+      }
+    </SafeAreaView>
+  )
 }
 
 export default PublishScreen;
@@ -47,7 +63,14 @@ export default PublishScreen;
 const styles = StyleSheet.create({
   container: {
       flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center'
+  },
+  noDataCntnr: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+  },
+  noDataText: {
+      fontSize: 24,
+      textAlign: 'center'
   }
 })
