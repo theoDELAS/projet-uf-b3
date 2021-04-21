@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer, useMemo } from 'react';
-import { View, Text, Button, StyleSheet, SafeAreaView, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ActivityIndicator, Animated, Pressable, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ItemCard from '../components/Card';
 
@@ -8,6 +8,8 @@ import axios from 'axios';
 const PublishScreen = ({navigation}) => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
+  const device = '192.168.1.8';
+  let userId = 1;
 
   useEffect(() => {
     getAllProducts();
@@ -15,16 +17,13 @@ const PublishScreen = ({navigation}) => {
 
 
   const getAllProducts = async () => {
-    const device = '192.168.1.36';
-    let userId = null;
-
     try {
       userId = await AsyncStorage.getItem('userId');
     } catch {
       console.log('error');
     }
 
-    await axios.get(`http://${device}:8000/api/product_tests?user=${userId}`)
+    await axios.get(`http://${device}:8000/api/products?user=${userId}`)
     .then(res => {
       let array = [...userProducts];
       res.data['hydra:member'].map(item => {
@@ -39,6 +38,7 @@ const PublishScreen = ({navigation}) => {
   
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       {
         isLoading ? (
           <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
@@ -47,7 +47,7 @@ const PublishScreen = ({navigation}) => {
         ) : (
           userProducts.length > 0 ? (
               userProducts.map((item, index) => (
-                <ItemCard title={item.name} key={index} />
+                <ItemCard userId={userId} itemId={item.id} title={item.name} key={index} />
               ))
             ) : (
               <View style={styles.noDataCntnr}>
@@ -56,6 +56,7 @@ const PublishScreen = ({navigation}) => {
             )
         )
       }
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -74,5 +75,16 @@ const styles = StyleSheet.create({
   noDataText: {
       fontSize: 24,
       textAlign: 'center'
-  }
+  },
+
+
+  item: {
+    backgroundColor: '#dedede',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
 })
