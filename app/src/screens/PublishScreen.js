@@ -17,28 +17,26 @@ const PublishScreen = ({navigation}) => {
 
 
   const getAllProducts = async () => {
-    try {
-      userId = await AsyncStorage.getItem('userId');
-    } catch {
-      console.log('error');
-    }
+    // try {
+    //   userId = await AsyncStorage.getItem('userId');
+    // } catch {
+    //   console.log('error');
+    // }
 
     await axios.get(`http://${device}:8000/api/products?user=${userId}`)
     .then(res => {
-      let array = [...userProducts];
-      res.data['hydra:member'].map(item => {
-        array.push(item);
-      })
       setUserProducts(res.data['hydra:member']);
     })
     .then(() => {
       setIsLoading(false);
     })
+    .catch(e => {
+      console.log('Impossible de récupérer les skins dans l\'inventaire de l\'utilisateur : ', e);
+    })
   }
   
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
+    <View style={styles.container}>
       {
         isLoading ? (
           <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
@@ -46,9 +44,16 @@ const PublishScreen = ({navigation}) => {
           </View>
         ) : (
           userProducts.length > 0 ? (
-              userProducts.map((item, index) => (
-                <ItemCard userId={userId} itemId={item.id} title={item.name} key={index} />
-              ))
+            <SafeAreaView>
+              <ScrollView>
+                {
+                  userProducts.map((item, index) => (
+                    <ItemCard navigation={navigation} userId={userId} itemId={item.id} title={item.name} key={index} />
+                    )
+                    )
+                }
+              </ScrollView>
+            </SafeAreaView>
             ) : (
               <View style={styles.noDataCntnr}>
                 <Text style={styles.noDataText}>Vous n'avez aucun skin à vendre</Text>
@@ -56,8 +61,7 @@ const PublishScreen = ({navigation}) => {
             )
         )
       }
-      </ScrollView>
-    </SafeAreaView>
+    </View>
   )
 }
 

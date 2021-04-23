@@ -3,13 +3,15 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Repository\AuctionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=AuctionRepository::class)
- *
  * @ApiResource
+ * @ApiFilter(SearchFilter::class, properties={"seller": "partial"})
  */
 class Auction
 {

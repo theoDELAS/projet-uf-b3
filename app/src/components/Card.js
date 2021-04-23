@@ -2,22 +2,14 @@ import React, { useState } from 'react';
 import { 
   Animated, 
   Modal, 
-  Text, 
-  Image, 
+  Text,
   StyleSheet, 
   Pressable, 
   View, 
   TextInput, 
-  TouchableOpacity,
-  TouchableWithoutFeedback, 
-  StatusBar, 
-  Animatable,
-  Button
+  TouchableOpacity
 } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import AuctionService from '../../services/AuctionService.js'
-import axios from 'axios';
+import AuctionService from '../../services/AuctionService.js';
 
 // const image = { uri: "https://reactjs.org/logo-og.png" };
 const ItemCard = (props) => {
@@ -34,18 +26,13 @@ const ItemCard = (props) => {
       product: `http://${device}:8000/api/products/${props.itemId}`,
       price: price,
       seller: `http://${device}:8000/api/users/${props.userId}`,
-    }
-
-    console.log('data : ', data);
-    
+    }    
 
     AuctionService.createAuction(data)
-    .then((response) => {
-      console.log(response)
-      console.log("YALA")
+    .then(() => {
+      props.navigation.navigate("ProfileScreen");
     })
     .catch((err) => {
-      console.log("MISKINE")
       console.log(err)
     })
   }
