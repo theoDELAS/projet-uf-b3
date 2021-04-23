@@ -29,9 +29,6 @@ const ItemCard = (props) => {
     }    
 
     AuctionService.createAuction(data)
-    .then(() => {
-      props.navigation.navigate("ProfileScreen");
-    })
     .catch((err) => {
       console.log(err)
     })

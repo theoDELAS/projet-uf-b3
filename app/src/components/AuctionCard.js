@@ -12,18 +12,14 @@ import GlobalService from '../../services/GlobalService'
 const AuctionCard = (props) => {   
     const [product, setProduct] = useState({});
     const [buyer, setBuyer] = useState({});
-    const [isLoading, setIsLoading] = useState(true)
-
-    let userId = 1;
+    const [isLoading, setIsLoading] = useState(true);
   
     useEffect(() => {
-        const promise1 = new Promise((resolve, rej) => {
+        const promise1 = new Promise((resolve) => {
             initData(resolve);
         })
 
         promise1.then(() => {
-            console.log(product);
-            
             setIsLoading(false)
         })
     }, [])
@@ -44,8 +40,6 @@ const AuctionCard = (props) => {
                 resolve('ok')
             }
         })
-
-        
     }
 
   return (

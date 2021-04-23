@@ -7,14 +7,19 @@ import GlobalService from '../../services/GlobalService'
 
 const ProfileScreen = ({navigation}) => {
   const [userAuctions, setUserAuctions] = useState([]);
+  const [price, setPrice] = useState(0);
+  const [buyer, setBuyer] = useState();
   const [isLoading, setIsLoading] = useState(true)
   const device = '192.168.1.8';
   let userId = 1;
 
   useEffect(() => {
     getAllAuctions();
-  }, [])
+  }, [price])
 
+  const onChangePrice = (val) => {
+    setPrice(val);
+  }
 
   const getAllAuctions = async () => {
     // try {
