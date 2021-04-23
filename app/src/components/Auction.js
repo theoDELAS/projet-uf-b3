@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Animated, 
   Modal, 
@@ -17,13 +17,28 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import AuctionService from '../../services/AuctionService.js'
+import UserService from '../../services/UserService.js'
+import ProductService from '../../services/ProductService.js'
 import axios from 'axios';
 
 // const image = { uri: "https://reactjs.org/logo-og.png" };
-const ItemCard = (props) => {
+const Auction = (props) => {
+  const [product, setProduct] = useState([])
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
+  const [isValid, setIsValid] = useState(true)
   const device = '172.20.10.2';
+
+  useEffect(() => {
+      getProduct()
+  }, [])
+
+  const getProduct = async () => {
+    ProductService.getProduct(props.itemId.match(/(\d+)/))
+    .then(response => {
+        setProduct(response.data)
+    })
+  }
 
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
@@ -31,28 +46,32 @@ const ItemCard = (props) => {
 
   const handleSubmit = () => {
     const data = {
-      product: `http://${device}:8000/api/products/${props.itemId}`,
+    //   product: ProductService.getProduct(product.id),
       price: price,
-      seller: `http://${device}:8000/api/users/${props.userId}`,
+    //   seller: UserService.getOne(props.userId),
+    }
+    
+    if(price > props.price) {
+        setIsValid(true)
+        AuctionService.updateAuction(props.auctionId, data)
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    } else {
+        setIsValid(false)
     }
 
-    console.log('data : ', data);
-    
-
-    AuctionService.createAuction(data)
-    .then((response) => {
-      console.log(response)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
   }
 
   return (
     <>
       <Pressable onPress={() => setModalVisible(true)}>
         <Animated.View style={styles.item}>
-            <Text style={styles.title}>{props.title}</Text>
+            <Text style={styles.title}>{product.name}</Text>
+            <Text>{props.price}</Text>
         </Animated.View>
       </Pressable>
       
@@ -65,13 +84,25 @@ const ItemCard = (props) => {
         }}
       >
         <View style={styles.modal}>
-          <Text>{props.title}</Text>
-          <Text>{props.id}</Text>
-          <TextInput
-            placeholder="Prix"
-            onChangeText={(val) => onChangePrice(val)}
-          >
-          </TextInput>
+          
+          <Text>{props.price}</Text>
+          {
+              !isValid ? (
+                <>
+                  <Text style={{color: "red"}}>L'enchère doit être supérieure à l'actuelle</Text>
+                  <TextInput
+                  placeholder="Prix"
+                  onChangeText={(val) => onChangePrice(val)}
+                  />
+                </>
+              ) : (
+                <TextInput
+                placeholder="Prix"
+                onChangeText={(val) => onChangePrice(val)}
+                />
+              )
+          }
+          {/* </TextInput> */}
           <TouchableOpacity onPress={() => handleSubmit()} >
             <Text>Envoyer</Text>
           </TouchableOpacity>
@@ -102,4 +133,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default ItemCard;
+export default Auction;

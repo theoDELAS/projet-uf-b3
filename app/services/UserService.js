@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const local = 'localhost'
-const device = '192.168.1.36' 
+const device = '172.20.10.2' 
 
 class UserService {
     login(data) {
