@@ -49,7 +49,6 @@ const SettingsScreen = ({navigation}) => {
   const handleSynchronize = () => {
     axios.get(`https://steamcommunity.com/id/${steamName}/inventory/json/730/2`)
     .then(async res => {
-      setIsLoading(true)
       let userId;
       try {
         userId = await AsyncStorage.getItem('userId');

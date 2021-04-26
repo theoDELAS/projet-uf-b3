@@ -9,7 +9,6 @@ const PublishScreen = ({navigation}) => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
   const device = '192.168.1.8';
-  let userId = 1;
 
   useEffect(() => {
     getAllProducts();
@@ -47,7 +46,7 @@ const PublishScreen = ({navigation}) => {
               <ScrollView>
                 {
                   userProducts.map((item, index) => (
-                    <ItemCard navigation={navigation} image={item.image} userId={userId} itemId={item.id} title={item.name} key={index} />
+                    <ItemCard navigation={navigation} image={item.image} itemId={item.id} title={item.name} key={index} />
                     )
                     )
                 }

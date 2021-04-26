@@ -28,8 +28,8 @@ const Auction = (props) => {
 
   useEffect(() => {
     getSeller(),
-      getProduct(),
-      getBuyer()
+    getProduct(),
+    getBuyer()
   }, [])
 
   const getProduct = async () => {
@@ -103,7 +103,13 @@ const Auction = (props) => {
               <Text style={styles.title}>{product.name}</Text>
               <View style={{flexDirection: 'row',  justifyContent: "space-around"}}>
                 <View>
-                  <Text>{seller.username}</Text>
+                {
+                  seller ? (
+                  <Text>Vendeur : {seller.username}</Text>
+                  )
+                  :
+                  null
+                }
                   <Text>{props.initialPrice}€</Text>
                 </View>
                 {

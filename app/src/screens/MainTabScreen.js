@@ -39,7 +39,7 @@ const MainTabScreen = () => (
             ),
             }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
             name="Favorites"
             component={FavoritesStackScreen}
             options={{
@@ -49,7 +49,7 @@ const MainTabScreen = () => (
                 <Icon name="ios-heart" color={color} size={26} />
             ),
             }}
-        />
+        /> */}
         <Tab.Screen
             name="Auction"
             component={PublishStackScreen}
@@ -61,7 +61,7 @@ const MainTabScreen = () => (
             ),
             }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
             name="Messages"
             component={MessagesStackScreen}
             options={{
@@ -71,7 +71,7 @@ const MainTabScreen = () => (
                 <Icon name="ios-chatbubble" color={color} size={26} />
             ),
             }}
-        />
+        /> */}
         <Tab.Screen
             name="Profile"
             component={ProfileStackScreen}
@@ -125,31 +125,31 @@ const SearchStackScreen = ({navigation}) => (
   </SearchStack.Navigator>
 );
 
-const FavoritesStackScreen = ({navigation}) => (
-  <FavoritesStack.Navigator screenOptions={{
-    headerStyle: {
-      backgroundColor: '#1f65ff'
-    },
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: 'bold'
-    }
-  }}>
-    <FavoritesStack.Screen name="Favorites" component={FavoritesScreen} options={{
-      title:'Favorites',
-      headerLeft: () => (
-        <Icon.Button 
-          name="ios-menu" 
-          size={25} 
-          backgroundColor="#1f65ff" 
-          onPress={() => {
-            navigation.openDrawer()
-          }
-        }></Icon.Button>
-      )
-    }} />
-  </FavoritesStack.Navigator>
-);
+// const FavoritesStackScreen = ({navigation}) => (
+//   <FavoritesStack.Navigator screenOptions={{
+//     headerStyle: {
+//       backgroundColor: '#1f65ff'
+//     },
+//     headerTintColor: "#fff",
+//     headerTitleStyle: {
+//       fontWeight: 'bold'
+//     }
+//   }}>
+//     <FavoritesStack.Screen name="Favorites" component={FavoritesScreen} options={{
+//       title:'Favorites',
+//       headerLeft: () => (
+//         <Icon.Button 
+//           name="ios-menu" 
+//           size={25} 
+//           backgroundColor="#1f65ff" 
+//           onPress={() => {
+//             navigation.openDrawer()
+//           }
+//         }></Icon.Button>
+//       )
+//     }} />
+//   </FavoritesStack.Navigator>
+// );
 
 const PublishStackScreen = ({navigation}) => (
   <PublishStack.Navigator screenOptions={{
@@ -177,31 +177,31 @@ const PublishStackScreen = ({navigation}) => (
   </PublishStack.Navigator>
 );
 
-const MessagesStackScreen = ({navigation}) => (
-  <MessagesStack.Navigator screenOptions={{
-    headerStyle: {
-      backgroundColor: '#d02860'
-    },
-    headerTintColor: "#fff",
-    headerTitleStyle: {
-      fontWeight: 'bold'
-    }
-  }}>
-    <MessagesStack.Screen name="Messages" component={MessagesScreen} options={{
-      title:'Messages',
-      headerLeft: () => (
-        <Icon.Button 
-          name="ios-menu" 
-          size={25} 
-          backgroundColor="#d02860" 
-          onPress={() => {
-            navigation.openDrawer()
-          }
-        }></Icon.Button>
-      )
-    }} />
-  </MessagesStack.Navigator>
-);
+// const MessagesStackScreen = ({navigation}) => (
+//   <MessagesStack.Navigator screenOptions={{
+//     headerStyle: {
+//       backgroundColor: '#d02860'
+//     },
+//     headerTintColor: "#fff",
+//     headerTitleStyle: {
+//       fontWeight: 'bold'
+//     }
+//   }}>
+//     <MessagesStack.Screen name="Messages" component={MessagesScreen} options={{
+//       title:'Messages',
+//       headerLeft: () => (
+//         <Icon.Button 
+//           name="ios-menu" 
+//           size={25} 
+//           backgroundColor="#d02860" 
+//           onPress={() => {
+//             navigation.openDrawer()
+//           }
+//         }></Icon.Button>
+//       )
+//     }} />
+//   </MessagesStack.Navigator>
+// );
 
 const ProfileStackScreen = ({navigation}) => (
   <ProfileStack.Navigator screenOptions={{

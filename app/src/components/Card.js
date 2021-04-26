@@ -23,11 +23,17 @@ const ItemCard = (props) => {
     setPrice(parseInt(data));
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    let userId;
+    try {
+      userId = await AsyncStorage.getItem('userId');
+    } catch {
+      console.log('error');
+    }
     const data = {
       product: `http://${device}:8000/api/products/${props.itemId}`,
       initialPrice: price,
-      seller: `http://${device}:8000/api/users/${props.userId}`,
+      seller: `http://${device}:8000/api/users/${userId}`,
     }    
 
     AuctionService.createAuction(data)
