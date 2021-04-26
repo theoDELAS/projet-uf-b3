@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProductRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -59,6 +61,16 @@ class Product
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $classId;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Favorite::class, mappedBy="product")
+     */
+    private $favorites;
+
+    public function __construct()
+    {
+        $this->favorites = new ArrayCollection();
+    }
 
     /**
      * @ORM\PrePersist
@@ -168,6 +180,33 @@ class Product
     public function setClassId(?string $classId): self
     {
         $this->classId = $classId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Favorite[]
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): self
+    {
+        if ($this->favorites->removeElement($favorite)) {
+            $favorite->removeProduct($this);
+        }
 
         return $this;
     }

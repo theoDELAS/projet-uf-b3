@@ -6,6 +6,7 @@ import {
   View,
   ActivityIndicator
 } from 'react-native';
+import { Divider } from 'react-native-elements';
 import GlobalService from '../../services/GlobalService'
 
 // const image = { uri: "https://reactjs.org/logo-og.png" };
@@ -45,16 +46,16 @@ const AuctionCard = (props) => {
   return (
     isLoading ? (
         <View style={styles.loader}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#999999" />
         </View>
       ) : (
         <View style={buyer.username ? (styles.itemAuction) : (styles.itemNoAuction)}>
-            <Text>{product.name}</Text>
+            <Text style={styles.title}>{product.name}</Text>
             {
 							buyer.username ? (
-								<Text>{buyer.username} propose {props.price}€</Text>
+								<Text style={styles.content}>{buyer.username} propose {props.price}€</Text>
 							) : (
-								<Text>Aucune enchère : mis à {props.price}€ minimum</Text>
+								<Text style={styles.content}>Aucune enchère : mis à {props.price}€ minimum</Text>
 							)
             }
         </View>
@@ -64,21 +65,24 @@ const AuctionCard = (props) => {
 
 const styles = StyleSheet.create({
     itemAuction: {
-			borderWidth: 1,
-			borderColor: 'green',
+      backgroundColor: "#dedede",
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
+      borderRadius: 10
     },
     itemNoAuction: {
-			borderWidth: 1,
-			borderColor: 'red',
+      backgroundColor: "#dedede",
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
+      borderRadius: 10
     },
     title: {
       fontSize: 32,
+    },
+    content: {
+      fontSize: 20
     },
     loader: {
         marginVertical: 15,

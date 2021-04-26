@@ -7,11 +7,8 @@ import {
   StyleSheet, 
   Pressable, 
   View, 
-  TextInput, 
-  TouchableOpacity,
-  TouchableWithoutFeedback, 
-  StatusBar, 
-  Animatable,
+  TextInput,
+  ActivityIndicator,
   Button
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -27,6 +24,7 @@ const Auction = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
   const [isValid, setIsValid] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
       getProduct()
@@ -36,6 +34,12 @@ const Auction = (props) => {
     ProductService.getProduct(props.itemId.match(/(\d+)/))
     .then(response => {
         setProduct(response.data)
+    })
+    .then(() => {
+      setIsLoading(false);
+    })
+    .catch(e => {
+      console.log('Impossible de récupérer la mise aux enchere de cet item : ', e)
     })
   }
 
@@ -65,50 +69,61 @@ const Auction = (props) => {
   }
 
   return (
-    <>
-      <Pressable onPress={() => setModalVisible(true)}>
-        <Animated.View style={styles.item}>
-            <Text style={styles.title}>{product.name}</Text>
-            <Text>{props.price}</Text>
-        </Animated.View>
-      </Pressable>
-      
-      <Modal 
-        animationType="slide"
-        visible={modalVisible}
-        transparent={true}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible)
-        }}
-      >
-        <View style={styles.modal}>
-          
-          <Text>{props.price}</Text>
-          {
-              !isValid ? (
-                <>
-                  <Text style={{color: "red"}}>L'enchère doit être supérieure à l'actuelle</Text>
+    isLoading ? (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#999999" />
+      </View>
+    ) : (
+      <View>
+        <Pressable onPress={() => setModalVisible(true)}>
+          <Animated.View style={styles.item}>
+              <Text style={styles.title}>{product.name}</Text>
+              <Text>{props.price}€</Text>
+          </Animated.View>
+        </Pressable>
+        
+        <Modal 
+          animationType="slide"
+          visible={modalVisible}
+          transparent={true}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible)
+          }}
+        >
+          <View style={styles.modal}>
+            <Text style={{marginBottom: 15}}>{props.price}€</Text>
+            {
+                !isValid ? (
+                  <>
+                    <Text style={{color: "red"}}>L'enchère doit être supérieure à l'actuelle</Text>
+                    <TextInput
+                      autoFocus={true}
+                      placeholder="Prix"
+                      keyboardType="number-pad"
+                      onChangeText={(val) => onChangePrice(val)}
+                    />
+                  </>
+                ) : (
                   <TextInput
                   placeholder="Prix"
+                  keyboardType="number-pad"
+                  autoFocus={true}
                   onChangeText={(val) => onChangePrice(val)}
                   />
-                </>
-              ) : (
-                <TextInput
-                placeholder="Prix"
-                onChangeText={(val) => onChangePrice(val)}
-                />
-              )
-          }
-          <TouchableOpacity onPress={() => handleSubmit()} >
-            <Text>Envoyer</Text>
-          </TouchableOpacity>
-          <Pressable onPress={() => setModalVisible(!modalVisible)}>
-            <Text>Fermer</Text>
-          </Pressable>
-        </View>
-      </Modal>
-    </>
+                )
+            }
+            <Button 
+              onPress={() => handleSubmit()}
+              title='Envoyer'
+            />
+            <Button 
+              onPress={() => setModalVisible(!modalVisible)}
+              title='Fermer'
+            />
+          </View>
+        </Modal>
+      </View>
+    )
   );
 };
 
@@ -118,6 +133,7 @@ const styles = StyleSheet.create({
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
+      borderRadius: 10
     },
     title: {
       fontSize: 32,
@@ -127,7 +143,10 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center'
-    }
+    },
+    loader: {
+      marginVertical: 15,
+  }
   });
 
 export default Auction;

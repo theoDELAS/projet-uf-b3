@@ -8,7 +8,7 @@ import axios from 'axios';
 const PublishScreen = ({navigation}) => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
-  const device = '192.168.1.8';
+  const device = '172.20.10.3';
   let userId = 1;
 
   useEffect(() => {
@@ -17,11 +17,11 @@ const PublishScreen = ({navigation}) => {
 
 
   const getAllProducts = async () => {
-    // try {
-    //   userId = await AsyncStorage.getItem('userId');
-    // } catch {
-    //   console.log('error');
-    // }
+    try {
+      userId = await AsyncStorage.getItem('userId');
+    } catch {
+      console.log('error');
+    }
 
     await axios.get(`http://${device}:8000/api/products?user=${userId}`)
     .then(res => {
@@ -40,7 +40,7 @@ const PublishScreen = ({navigation}) => {
       {
         isLoading ? (
           <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color="#999999" />
           </View>
         ) : (
           userProducts.length > 0 ? (
@@ -48,9 +48,8 @@ const PublishScreen = ({navigation}) => {
               <ScrollView>
                 {
                   userProducts.map((item, index) => (
-                    <ItemCard navigation={navigation} userId={userId} itemId={item.id} title={item.name} key={index} />
-                    )
-                    )
+                    <ItemCard navigation={navigation} image={item.image} userId={userId} itemId={item.id} title={item.name} key={index} />
+                  ))
                 }
               </ScrollView>
             </SafeAreaView>

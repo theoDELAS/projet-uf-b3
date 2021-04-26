@@ -18,7 +18,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../components/context';
 import axios from 'axios';
 import UserService from '../../services/UserService'
-import slugify from 'slugify'
 
 const SignInScreen = ({navigation}) => {
 
@@ -26,7 +25,7 @@ const SignInScreen = ({navigation}) => {
 
     const [inventory, setInventory] = useState({});
     const [products, setProducts] = useState({});
-    const device = '172.20.10.2';
+    const device = '172.20.10.3';
     const [data, setData] = useState({
         username: '',
         password: '',
@@ -139,7 +138,7 @@ const SignInScreen = ({navigation}) => {
           ).then(res => {
             const users = res.data['hydra:member'];
             const foundUser = users.filter( item => {
-                return userName === item.username && password === item.password
+                return userName === item.username // && password === item.password
             });
             if (foundUser.length === 0) {
                 Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
@@ -148,18 +147,10 @@ const SignInScreen = ({navigation}) => {
                 return;
             }
             signIn(foundUser);
-            console.log("FOUNDUSER")
-            console.log(parseInt(foundUser[0].id))
-            console.log(Number.isInteger(parseInt(foundUser[0].id)))
-            console.log('yes');
             const userid = parseInt(foundUser[0].id)
             // try {
                 axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`)
                 .then(res => {
-                console.log('ah')
-                // console.log(res)
-            //     console.log('inventory')
-            //     console.log(inventory)
                 const inventory = res.data
                 const result = []
                 for(const test in inventory.rgDescriptions) {
@@ -171,30 +162,21 @@ const SignInScreen = ({navigation}) => {
                     setInventory(result)
                     }
                 }
-                result.map((item) => {
+                result.map((item) => {                    
                     return axios.post(`http://${device}:8000/api/products`, {
                         classId: item.classid,
-                        description: "ndienfiq",
                         name: item.market_hash_name,
                         user: `http://${device}:8000/api/users/${foundUser[0].id}`,
-                        slug: slugify(item.market_hash_name, {
-                            replacement: '-',
-                            remove: '|',
-                            lower: true
-                        }),
-                        image: item.icon_url
+                        image: item.icon_url,
+                        description: "ndienfiq",
                     }).then((reponse) => {
                         console.log("OK")
                     }).catch(err => console.log(err));
                 })
             })
-            
-            
           }).catch(err => {
             console.log(err.message);
         });
-        
-
     }
 
     return(

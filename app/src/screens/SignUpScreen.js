@@ -135,6 +135,7 @@ const SignInScreen = ({navigation}) => {
             password: password,
             token: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
         }
+        
         signUp(user);
     }
 
@@ -186,29 +187,30 @@ const SignInScreen = ({navigation}) => {
                 
                 <Text style={[styles.text_footer, {marginTop:35}]}>Email</Text>
                 <View style={styles.action}>
-                        <FontAwesome
-                            name="user-o"
-                            color="#05375a"
+                    <FontAwesome
+                        name="user-o"
+                        color="#05375a"
+                        size={20}
+                    />
+                    <TextInput
+                        placeholder="Email"
+                        keyboardType="email-address"
+                        style={styles.textInput}
+                        autoCapitalize="none"
+                        onChangeText={(val) => emailInputChange(val)}
+                    />
+                    {data.check_emailInputChange ?
+                    <Animatable.View
+                        animation="bounceIn"
+                        duration={1500}
+                    >
+                        <Feather
+                            name="check-circle"
+                            color="green"
                             size={20}
                         />
-                        <TextInput
-                            placeholder="Email"
-                            style={styles.textInput}
-                            autoCapitalize="none"
-                            onChangeText={(val) => emailInputChange(val)}
-                        />
-                        {data.check_emailInputChange ?
-                        <Animatable.View
-                            animation="bounceIn"
-                            duration={1500}
-                        >
-                            <Feather
-                                name="check-circle"
-                                color="green"
-                                size={20}
-                            />
-                        </Animatable.View>
-                        : null}
+                    </Animatable.View>
+                    : null}
                 </View>
                 {data.isValidEmail ? null :
                     <Animatable.View

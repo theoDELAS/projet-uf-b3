@@ -7,7 +7,9 @@ import {
   Pressable, 
   View, 
   TextInput, 
-  TouchableOpacity
+  Button,
+  Image,
+  Divider
 } from 'react-native';
 import AuctionService from '../../services/AuctionService.js';
 
@@ -15,7 +17,7 @@ import AuctionService from '../../services/AuctionService.js';
 const ItemCard = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
-  const device = '192.168.1.8';
+  const device = '172.20.10.3';
 
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
@@ -29,6 +31,9 @@ const ItemCard = (props) => {
     }    
 
     AuctionService.createAuction(data)
+    .then(() => {
+      props.onChangePrice(data.price)
+    })
     .catch((err) => {
       console.log(err)
     })
@@ -38,7 +43,11 @@ const ItemCard = (props) => {
     <>
       <Pressable onPress={() => setModalVisible(true)}>
         <Animated.View style={styles.item}>
-            <Text style={styles.title}>{props.title}</Text>
+          <Image
+            style={styles.logo}
+            source={{uri: `http://cdn.steamcommunity.com/economy/image/${props.image}`}}
+          />
+          <Text style={styles.title}>{props.title}</Text>
         </Animated.View>
       </Pressable>
       
@@ -51,19 +60,27 @@ const ItemCard = (props) => {
         }}
       >
         <View style={styles.modal}>
-          <Text>{props.title}</Text>
-          <Text>{props.id}</Text>
+          <Image
+            style={styles.logo}
+            source={{uri: `http://cdn.steamcommunity.com/economy/image/${props.image}`}}
+          />
+          <Text style={{marginBottom: 15, fontSize: 22, textAlign:'center'}}>{props.title}</Text>
           <TextInput
             placeholder="Prix"
+            keyboardType='number-pad'
             onChangeText={(val) => onChangePrice(val)}
           >
           </TextInput>
-          <TouchableOpacity onPress={() => handleSubmit()} >
-            <Text>Envoyer</Text>
-          </TouchableOpacity>
-          <Pressable onPress={() => setModalVisible(!modalVisible)}>
-            <Text>Fermer</Text>
-          </Pressable>
+          <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', marginTop: 20}}>
+            <Button
+              onPress={() => handleSubmit()}
+              title="Envoyer"
+            />
+            <Button
+              onPress={() => setModalVisible(!modalVisible)}
+              title="Fermer"
+            />
+          </View>
         </View>
       </Modal>
     </>
@@ -72,10 +89,13 @@ const ItemCard = (props) => {
 
 const styles = StyleSheet.create({
     item: {
+      justifyContent: 'center',
+      alignItems: 'center',
       backgroundColor: '#dedede',
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
+      borderRadius: 10,
     },
     title: {
       fontSize: 32,
@@ -85,7 +105,12 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center'
-    }
+    },
+    logo: {
+      resizeMode: 'contain',
+      width: '100%',
+      height: 120,
+    },
   });
 
 export default ItemCard;

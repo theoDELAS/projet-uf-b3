@@ -10,7 +10,7 @@ const ProfileScreen = ({navigation}) => {
   const [price, setPrice] = useState(0);
   const [buyer, setBuyer] = useState();
   const [isLoading, setIsLoading] = useState(true)
-  const device = '192.168.1.8';
+  const device = '172.20.10.3';
   let userId = 1;
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const ProfileScreen = ({navigation}) => {
       {
         isLoading ? (
           <View>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color="#999999" />
           </View>
         ) : (
           userAuctions.length > 0 ? (
@@ -54,7 +54,7 @@ const ProfileScreen = ({navigation}) => {
                 {
                   userAuctions.map((item, index) => {
                     return (
-                      <AuctionCard key={index} price={item.price} product={item.product} buyer={item.buyer} />
+                      <AuctionCard onChangePrice={(val) => onChangePrice(val)} key={index} price={item.price} product={item.product} buyer={item.buyer} />
                     )
                   })
                 }
