@@ -26,32 +26,16 @@ const SignInScreen = ({navigation}) => {
 
     const [inventory, setInventory] = useState({});
     const [products, setProducts] = useState({});
-    const device = '172.20.10.2';
+    const device = '172.20.10.5';
     const [data, setData] = useState({
         username: '',
         password: '',
         check_textInputChange: false,
         secureTextEntry: true,
         isValidUser: true,
-        isValidPassword: true,
+        // isValidPassword: true,
     });
 
-    const state = {
-        isLoading: true
-    }
-
-    const componentDidMount = () => {
-        _isMounted = true
-
-        axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`).then(response => {
-            if (_isMounted) {
-            }
-        })        
-    }
-
-    const componentWillUnmount = () => {
-        _isMounted = false;
-    }
     // useEffect(() => {
     //     getInventory();
     // }, [])
@@ -108,13 +92,13 @@ const SignInScreen = ({navigation}) => {
             setData({
                 ...data,
                 password: val,
-                isValidPassword: true,
+                // isValidPassword: true,
             });
         } else {
             setData({
                 ...data,
                 password: val,
-                isValidPassword: false,
+                // isValidPassword: false,
             });
         }
     }
@@ -139,14 +123,14 @@ const SignInScreen = ({navigation}) => {
           ).then(res => {
             const users = res.data['hydra:member'];
             const foundUser = users.filter( item => {
-                return userName === item.username && password === item.password
+                return userName === item.username// && password === item.password
             });
-            if (foundUser.length === 0) {
-                Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
-                    {text: 'Ok'}
-                ]);
-                return;
-            }
+            // if (foundUser.length === 0) {
+            //     Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
+            //         {text: 'Ok'}
+            //     ]);
+            //     return;
+            // }
             signIn(foundUser);
             console.log("FOUNDUSER")
             console.log(parseInt(foundUser[0].id))

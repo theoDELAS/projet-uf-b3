@@ -16,7 +16,7 @@ import axios from 'axios';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-  const device = '192.168.1.8'
+  const device = '172.20.10.5'
 
   const initialLoginState = {
     isLoading: true,
@@ -144,14 +144,14 @@ const App = () => {
   return (
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
-        {/* { loginState.userToken !== null ? ( */}
+        { loginState.userToken !== null ? (
           <Drawer.Navigator drawerContent={props => <DrawerContent { ...props } />}>
             <Drawer.Screen name="HomeDrawer" auth={authContext} component={MainTabScreen} />
           </Drawer.Navigator>
-       {/* )
+        )
       :
         <RootStackScreen/>
-      } */}
+      }
       </NavigationContainer>
     </AuthContext.Provider>
   );

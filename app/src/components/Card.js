@@ -15,7 +15,7 @@ import AuctionService from '../../services/AuctionService.js';
 const ItemCard = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
-  const device = '192.168.1.8';
+  const device = '172.20.10.5';
 
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
@@ -24,7 +24,7 @@ const ItemCard = (props) => {
   const handleSubmit = () => {
     const data = {
       product: `http://${device}:8000/api/products/${props.itemId}`,
-      price: price,
+      initialPrice: price,
       seller: `http://${device}:8000/api/users/${props.userId}`,
     }    
 

@@ -24,28 +24,44 @@ import axios from 'axios';
 // const image = { uri: "https://reactjs.org/logo-og.png" };
 const Auction = (props) => {
   const [product, setProduct] = useState([])
+  const [seller, setSeller] = useState()
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
   const [isValid, setIsValid] = useState(true)
 
   useEffect(() => {
-      getProduct()
+      getProduct(),
+      getSeller()
   }, [])
 
   const getProduct = async () => {
     ProductService.getProduct(props.itemId.match(/(\d+)/))
     .then(response => {
+      // console.log(response.data);
         setProduct(response.data)
     })
   }
+
+  const getSeller = async () => {
+    UserService.getOne(props.sellerId.match(/(\d+)/)[0])
+    .then(response => {
+      console.log('A')
+      console.log(response.data)
+      setSeller(response.data)
+    })
+  } 
 
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
   }
 
+  // console.log('A');
+  // console.log(props.sellerId.match(/(\d+)/)[0])
+
   const handleSubmit = () => {
     const data = {
       price: price,
+      buyer: props.userId
     }
     
     if(price > props.price) {
@@ -69,21 +85,48 @@ const Auction = (props) => {
       <Pressable onPress={() => setModalVisible(true)}>
         <Animated.View style={styles.item}>
             <Text style={styles.title}>{product.name}</Text>
-            <Text>{props.price}</Text>
+            <Text>{props.initialPrice}</Text>
         </Animated.View>
       </Pressable>
       
       <Modal 
+        presentationStyle="pageSheet"
         animationType="slide"
         visible={modalVisible}
-        transparent={true}
+        // transparent={true}
         onRequestClose={() => {
           setModalVisible(!modalVisible)
         }}
       >
         <View style={styles.modal}>
-          
-          <Text>{props.price}</Text>
+          <Image style={{width: 200, height: 200, borderWidth: 1, borderColor: "red"}} source={{uri:`http://cdn.steamcommunity.com/economy/image/${product.image}`}} />
+          <Text>{product.name}</Text>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={{marginRight:50}}>
+              <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Première enchère</Text>
+              {/* <Text style={{textAlign:'center'}}>{seller.username}</Text> */}
+              <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.initialPrice}</Text>
+            </View>
+            <View style={{}}>
+              {
+                props.price ? (
+                  <>
+                  <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text>
+                  {/* <Text style={{textAlign:'center'}}>{seller.username}</Text> */}
+                  <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.price}</Text>
+                  </>
+                ) :
+                (
+                  <>
+                  <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text>
+                  <Text style={{color:'red', textAlign:'center'}}>Aucune enchère</Text>
+                  </>
+                )
+              }
+              <Text>{props.price}</Text>
+            </View>
+          </View>
+          <View style={{flex: 5}}>
           {
               !isValid ? (
                 <>
@@ -106,6 +149,7 @@ const Auction = (props) => {
           <Pressable onPress={() => setModalVisible(!modalVisible)}>
             <Text>Fermer</Text>
           </Pressable>
+          </View>
         </View>
       </Modal>
     </>
@@ -126,7 +170,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#dedede',
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     }
   });
 

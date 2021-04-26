@@ -10,12 +10,12 @@ const ProfileScreen = ({navigation}) => {
   const [price, setPrice] = useState(0);
   const [buyer, setBuyer] = useState();
   const [isLoading, setIsLoading] = useState(true)
-  const device = '192.168.1.8';
+  const device = '172.20.10.5';
   let userId = 1;
 
   useEffect(() => {
     getAllAuctions();
-  }, [price])
+  }, [])
 
   const onChangePrice = (val) => {
     setPrice(val);
@@ -30,7 +30,11 @@ const ProfileScreen = ({navigation}) => {
 
     await axios.get(`http://${device}:8000/api/auctions?seller=${userId}`)
     .then(res => {
+      // console.log(res.data['hydra:member'])
       setUserAuctions(res.data['hydra:member'])
+      res.data['hydra:member'].map(test => {
+        setPrice(test.price)
+      })
     })
     .then(() => {
       setIsLoading(false);
