@@ -29,7 +29,7 @@ const SearchScreen = ({navigation}) => {
     //   const data = JSON.parse(event.data)
     //   console.log(data)
     // })
-    await AuctionService.getAllAuctions()
+    AuctionService.getAllAuctions()
     .then(response => {
       setAuctions(response.data['hydra:member'])
     })
@@ -42,7 +42,7 @@ const SearchScreen = ({navigation}) => {
     <ScrollView>
       {
         auctions.map((auction, index) => (
-          <Auction onChangePrice={(val) => onChangePrice(val)} initialPrice={auction.initialPrice} itemId={auction.product} userId={userId} sellerId={auction.seller} auctionId={auction.id} key={index} />
+          <Auction onChangePrice={(val) => onChangePrice(val)} initialPrice={auction.initialPrice} itemId={auction.product} userId={userId} buyerId={auction.buyer} sellerId={auction.seller} auctionId={auction.id} key={index} />
           ))
       }
     </ScrollView>

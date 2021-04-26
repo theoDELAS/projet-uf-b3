@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ActivityIndicator, Animated, Pressable, ScrollView } from 'react-native';
 import AuctionCard from '../components/AuctionCard'
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import GlobalService from '../../services/GlobalService'
 
@@ -11,7 +12,7 @@ const ProfileScreen = ({navigation}) => {
   const [buyer, setBuyer] = useState();
   const [isLoading, setIsLoading] = useState(true)
   const device = '172.20.10.5';
-  let userId = 1;
+  let userId = 0;
 
   useEffect(() => {
     getAllAuctions();
@@ -22,11 +23,12 @@ const ProfileScreen = ({navigation}) => {
   }
 
   const getAllAuctions = async () => {
-    // try {
-    //   userId = await AsyncStorage.getItem('userId');
-    // } catch {
-    //   console.log('error');
-    // }
+    try {
+      userId = await AsyncStorage.getItem('userId');
+    } catch {
+      console.log(userId)
+      console.log('error');
+    }
 
     await axios.get(`http://${device}:8000/api/auctions?seller=${userId}`)
     .then(res => {

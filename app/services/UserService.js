@@ -12,8 +12,8 @@ class UserService {
         return axios.get(`http://${device}:8000/api/users`)
     }
 
-    getOne() {
-        return axios.get(`http://${device}:8000/api/users/20`)
+    getOne(id) {
+        return axios.get(`http://${device}:8000/api/users/${id}`)
     }
 
     getInventory() {

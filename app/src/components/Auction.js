@@ -25,46 +25,60 @@ import axios from 'axios';
 const Auction = (props) => {
   const [product, setProduct] = useState([])
   const [seller, setSeller] = useState()
+  const [buyer, setBuyer] = useState()
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
   const [isValid, setIsValid] = useState(true)
 
   useEffect(() => {
+    getSeller(),
       getProduct(),
-      getSeller()
+      getBuyer()
   }, [])
 
   const getProduct = async () => {
     ProductService.getProduct(props.itemId.match(/(\d+)/))
     .then(response => {
-      // console.log(response.data);
-        setProduct(response.data)
+      setProduct(response.data)
     })
   }
 
+  const getBuyer = async () => {
+    if (props.buyerId) {
+      UserService.getOne(props.buyerId.match(/(\d+)/))
+      .then(response => {
+        setBuyer(response.data)
+      })
+    }
+  }
+
   const getSeller = async () => {
-    UserService.getOne(props.sellerId.match(/(\d+)/)[0])
-    .then(response => {
-      console.log('A')
-      console.log(response.data)
-      setSeller(response.data)
-    })
+    if (props.sellerId) {
+      UserService.getOne(props.sellerId.match(/(\d+)/))
+      .then(response => {
+        setSeller(response.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
   } 
 
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
   }
 
-  // console.log('A');
-  // console.log(props.sellerId.match(/(\d+)/)[0])
+  console.log('B');
+  console.log(props.userId)
 
   const handleSubmit = () => {
     const data = {
       price: price,
-      buyer: props.userId
+      buyer: UserService.getOne(props.userId)
     }
     
-    if(price > props.price) {
+    if(price > props.initialPrice) {
         setIsValid(true)
         AuctionService.updateAuction(props.auctionId, data)
         .then(() => {
@@ -104,15 +118,20 @@ const Auction = (props) => {
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{marginRight:50}}>
               <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Première enchère</Text>
-              {/* <Text style={{textAlign:'center'}}>{seller.username}</Text> */}
-              <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.initialPrice}</Text>
+              {
+                seller ?
+                <Text style={{textAlign:'center'}}>{seller.username}</Text>
+                :
+                null
+              }
+              <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.initialPrice} €</Text>
             </View>
             <View style={{}}>
               {
                 props.price ? (
                   <>
                   <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text>
-                  {/* <Text style={{textAlign:'center'}}>{seller.username}</Text> */}
+                  <Text style={{textAlign:'center'}}>{buyer.username}</Text>
                   <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.price}</Text>
                   </>
                 ) :
