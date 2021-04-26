@@ -8,12 +8,12 @@ import axios from 'axios';
 const PublishScreen = ({navigation}) => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
-  const device = '192.168.1.36';
+  const device = '192.168.1.8';
   let userId = 1;
 
   useEffect(() => {
     getAllProducts();
-  }, [])
+  }, [userProducts])
 
   const getAllProducts = async () => {
     try {
