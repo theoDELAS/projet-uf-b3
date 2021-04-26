@@ -49,7 +49,7 @@ const AuctionCard = (props) => {
         </View>
       ) : (
         <View style={buyer.username ? (styles.itemAuction) : (styles.itemNoAuction)}>
-            <Text>{product.name}</Text>
+            <Text>{product.title}</Text>
             {
 							buyer.username ? (
 								<Text>{buyer.username} propose {props.price}€</Text>

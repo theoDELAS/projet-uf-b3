@@ -8,12 +8,12 @@ import axios from 'axios';
 const PublishScreen = ({navigation}) => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
-  const device = '192.168.1.8';
+  const device = '192.168.1.36';
   let userId = 1;
 
   useEffect(() => {
     getAllProducts();
-  }, [userProducts])
+  }, [])
 
   const getAllProducts = async () => {
     try {
@@ -22,7 +22,7 @@ const PublishScreen = ({navigation}) => {
       console.log('error');
     }
 
-    await axios.get(`http://${device}:8000/api/products?user=${userId}`)
+    await axios.get(`http://${device}:8000/api/products?user=${userId}&auction=null`)
     .then(res => {
       setUserProducts(res.data['hydra:member']);
     })
@@ -47,7 +47,7 @@ const PublishScreen = ({navigation}) => {
               <ScrollView>
                 {
                   userProducts.map((item, index) => (
-                    <ItemCard navigation={navigation} image={item.image} userId={userId} itemId={item.id} title={item.name} key={index} />
+                    <ItemCard navigation={navigation} image={item.image} userId={userId} itemId={item.id} title={item.title} key={index} />
                     )
                     )
                 }

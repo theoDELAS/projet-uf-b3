@@ -95,11 +95,6 @@ const SignInScreen = ({navigation}) => {
             signIn(foundUser);
             console.log("FOUNDUSER")
             console.log(foundUser)
-            // console.log(parseInt(foundUser[0].id))
-            // console.log(Number.isInteger(parseInt(foundUser[0].id)))
-            // console.log('yes');
-            // const userid = parseInt(foundUser[0].id)
-            // try {
                 axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`)
                 .then(res => {
                 const inventory = res.data
@@ -113,17 +108,34 @@ const SignInScreen = ({navigation}) => {
                     setInventory(result)
                     }
                 }
-                result.map((item) => {
+                result.map((item) => {      
+                    const maiseuh = item.market_hash_name              
                     return axios.post(`http://${device}:8000/api/products`, {
                         classId: item.classid,
-                        description: "ndienfiq",
-                        name: item.market_hash_name,
+                        title: item.market_hash_name,
                         user: `http://${device}:8000/api/users/${foundUser[0].id}`,
-                        image: item.icon_url
+                        image: item.icon_url,
+                        description: "ndienfiq",
                     }).then((reponse) => {
                         console.log("OK")
                     }).catch(err => console.log(err));
                 })
+                // result.map((item) => {
+                //     console.log(item)
+                //     let color = item.tags.find(a => a.category === "Rarity").color
+                //     const data = {
+                //         classId: item.classid,
+                //         image: item.icon_url,
+                //         description: "ndienfiq",
+                //         title: item.market_hash_name,
+                //         user: `/api/users/${foundUser[0].id}`,
+                //         color: color
+                //     }
+                //     return axios.post(`http://${device}:8000/api/products`, data)
+                //     .then((response) => {
+                            
+                //     }).catch(err => console.log(err));
+                // })
             })
           }).catch(err => {
             console.log(err.message);
