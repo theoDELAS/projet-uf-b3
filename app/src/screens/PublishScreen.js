@@ -8,14 +8,12 @@ import axios from 'axios';
 const PublishScreen = ({navigation}) => {
   const [userProducts, setUserProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true)
-  const device = '172.20.10.5';
+  const device = '172.20.10.3';
   let userId = 1;
 
   useEffect(() => {
     getAllProducts();
   }, [])
-
-
 
   const getAllProducts = async () => {
     try {
@@ -35,15 +33,13 @@ const PublishScreen = ({navigation}) => {
       console.log('Impossible de récupérer les skins dans l\'inventaire de l\'utilisateur : ', e);
     })
   }
-
-  console.log(userProducts);
   
   return (
     <View style={styles.container}>
       {
         isLoading ? (
           <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator size="large" color="#999999" />
           </View>
         ) : (
           userProducts.length > 0 ? (
@@ -51,7 +47,7 @@ const PublishScreen = ({navigation}) => {
               <ScrollView>
                 {
                   userProducts.map((item, index) => (
-                    <ItemCard navigation={navigation} userId={userId} itemId={item.id} title={item.name} key={index} />
+                    <ItemCard navigation={navigation} image={item.image} userId={userId} itemId={item.id} title={item.name} key={index} />
                     )
                     )
                 }

@@ -45,7 +45,7 @@ const AuctionCard = (props) => {
   return (
     isLoading ? (
         <View style={styles.loader}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#999999" />
         </View>
       ) : (
         <View style={buyer.username ? (styles.itemAuction) : (styles.itemNoAuction)}>
