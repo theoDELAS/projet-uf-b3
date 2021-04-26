@@ -83,6 +83,11 @@ class User implements UserInterface
      */
     private $product;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $steam_name;
+
     public function __construct()
     {
         $this->auctions = new ArrayCollection();
@@ -282,6 +287,18 @@ class User implements UserInterface
                 $product->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSteamName(): ?string
+    {
+        return $this->steam_name;
+    }
+
+    public function setSteamName(?string $steam_name): self
+    {
+        $this->steam_name = $steam_name;
 
         return $this;
     }

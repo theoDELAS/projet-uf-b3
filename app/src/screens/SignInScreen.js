@@ -24,7 +24,7 @@ const SignInScreen = ({navigation}) => {
 
     const [inventory, setInventory] = useState({});
     const [products, setProducts] = useState({});
-    const device = '192.168.1.36';
+    const device = '192.168.1.8';
     const [data, setData] = useState({
         username: '',
         password: '',
@@ -84,52 +84,24 @@ const SignInScreen = ({navigation}) => {
             ]);
             return;
         }
-
+        
         axios.get(
             `http://${device}:8000/api/users`
-          ).then(res => {
-            const users = res.data['hydra:member'];
-            const foundUser = users.filter( item => {
-                return userName === item.username // && password === item.password
-            });
-            signIn(foundUser);
-            console.log("FOUNDUSER")
-            console.log(foundUser)
-            // console.log(parseInt(foundUser[0].id))
-            // console.log(Number.isInteger(parseInt(foundUser[0].id)))
-            // console.log('yes');
-            // const userid = parseInt(foundUser[0].id)
-            // try {
-                axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`)
-                .then(res => {
-                const inventory = res.data
-                const result = []
-                for(const test in inventory.rgDescriptions) {
-                    const tried = inventory.rgDescriptions[test]
-                    result.push(tried)
-                    if (!result) {
-                    console.log("ERROR")
-                    } else {
-                    setInventory(result)
-                    }
+            ).then(res => {
+                const users = res.data['hydra:member'];
+                const foundUser = users.filter( item => {
+                    return userName === item.username // && password === item.password
+                });
+                if (foundUser.length === 0) {
+                    Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
+                        {text: 'Ok'}
+                    ]);
+                    return;
                 }
-                result.map((item) => {
-                    return axios.post(`http://${device}:8000/api/products`, {
-                        classId: item.classid,
-                        description: "ndienfiq",
-                        name: item.market_hash_name,
-                        user: `http://${device}:8000/api/users/${foundUser[0].id}`,
-                        image: item.icon_url
-                    }).then((reponse) => {
-                        console.log("OK")
-                    }).catch(err => console.log(err));
-                })
-            })
+            signIn(foundUser);
           }).catch(err => {
             console.log(err.message);
         });
-        
-
     }
 
     return(

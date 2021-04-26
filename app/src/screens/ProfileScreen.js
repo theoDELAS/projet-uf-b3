@@ -4,14 +4,12 @@ import AuctionCard from '../components/AuctionCard'
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import GlobalService from '../../services/GlobalService'
-
 const ProfileScreen = ({navigation}) => {
   const [userAuctions, setUserAuctions] = useState([]);
   const [price, setPrice] = useState(0);
   const [buyer, setBuyer] = useState();
   const [isLoading, setIsLoading] = useState(true)
-  const device = '192.168.1.36';
+  const device = '192.168.1.8';
   let userId = 0;
 
   useEffect(() => {
@@ -66,7 +64,7 @@ const ProfileScreen = ({navigation}) => {
             </SafeAreaView>
           ) : (
             <View style={styles.noDataCntnr}>
-              <Text style={styles.noDataText}>Vous n'avez aucun skin à vendre</Text>
+              <Text style={styles.noDataText}>Vous n'avez aucune enchère en cours</Text>
             </View>
           )
         )
