@@ -66,6 +66,11 @@ class Product
     private $color;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $title;
+
+    /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
@@ -185,6 +190,18 @@ class Product
     public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

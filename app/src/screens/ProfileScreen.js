@@ -14,7 +14,7 @@ const ProfileScreen = ({navigation}) => {
 
   useEffect(() => {
     getAllAuctions();
-  }, [userAuctions])
+  }, [])
 
   const onChangePrice = (val) => {
     setPrice(val);

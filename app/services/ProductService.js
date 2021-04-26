@@ -8,6 +8,9 @@ class AuctionService {
         return axios.get(`http://${device}:8000/api/products/${id}`)
     }
 
+    createProduct(data) {
+        return axios.post(`http://${device}:8000/api/products/`, data)
+    }
     postProduct(data) {
         return axios.post(`http://${device}:8000/api/products`, data)
     }

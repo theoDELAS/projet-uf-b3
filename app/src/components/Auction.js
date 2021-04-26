@@ -100,7 +100,7 @@ const Auction = (props) => {
       <View>
         <Pressable onPress={() => setModalVisible(true)}>
           <Animated.View style={styles.item}>
-              <Text style={styles.title}>{product.name}</Text>
+              <Text style={styles.title}>{product.title}</Text>
               <View style={{flexDirection: 'row',  justifyContent: "space-around"}}>
                 <View>
                 {
@@ -153,7 +153,14 @@ const Auction = (props) => {
                   props.price ? (
                     <>
                       <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text>
-                      <Text style={{textAlign: 'center'}}>{buyer.username}</Text>
+                      {
+                        buyer ? (
+                          <Text style={{textAlign: 'center'}}>{buyer.username}</Text>
+                        )
+                        :
+                        null
+                      }
+                      
                       <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.price}€</Text>
                     </>
                   ) :

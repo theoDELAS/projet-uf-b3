@@ -12,7 +12,7 @@ const PublishScreen = ({navigation}) => {
 
   useEffect(() => {
     getAllProducts();
-  }, [userProducts])
+  }, [])
 
   const getAllProducts = async () => {
     try {
@@ -21,7 +21,7 @@ const PublishScreen = ({navigation}) => {
       console.log('error');
     }
 
-    await axios.get(`http://${device}:8000/api/products?user=${userId}`)
+    await axios.get(`http://${device}:8000/api/products?user=${userId}&auction=null`)
     .then(res => {
       setUserProducts(res.data['hydra:member']);
     })
