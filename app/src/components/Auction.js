@@ -8,6 +8,7 @@ import {
   Pressable, 
   View, 
   TextInput, 
+  Button,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -63,15 +64,11 @@ const Auction = (props) => {
         console.log(err)
       })
     }
-
   } 
 
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
   }
-
-  console.log('B');
-  console.log(props.userId)
 
   const handleSubmit = () => {
     const data = {
@@ -92,7 +89,6 @@ const Auction = (props) => {
     } else {
         setIsValid(false)
     }
-
   }
 
   return (
@@ -105,8 +101,20 @@ const Auction = (props) => {
         <Pressable onPress={() => setModalVisible(true)}>
           <Animated.View style={styles.item}>
               <Text style={styles.title}>{product.name}</Text>
-              <Text>{props.initialPrice}</Text>
-              <Text>{props.price}</Text>
+              <View style={{flexDirection: 'row',  justifyContent: "space-around"}}>
+                <View>
+                  <Text>{seller.username}</Text>
+                  <Text>{props.initialPrice}€</Text>
+                </View>
+                {
+                  buyer ? (
+                    <View>
+                    <Text>{buyer.username}</Text>
+                    <Text><Text>{props.price}€</Text></Text>
+                  </View>
+                  ) : ( null)
+                }
+              </View>
           </Animated.View>
         </Pressable>
         
@@ -121,7 +129,7 @@ const Auction = (props) => {
         >
           <View style={styles.modal}>
             <Image style={{width: 200, height: 200, borderWidth: 1, borderColor: "red"}} source={{uri:`http://cdn.steamcommunity.com/economy/image/${product.image}`}} />
-            <Text>{product.name}</Text>
+            <Text style={{marginTop: 15, marginBottom: 15, fontSize: 22}}>{product.name}</Text>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <View style={{marginRight:50}}>
                 <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Première enchère</Text>
@@ -132,25 +140,21 @@ const Auction = (props) => {
                   :
                   null
                 }
-                <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.initialPrice}</Text>
+                <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.initialPrice}€</Text>
               </View>
               <View style={{}}>
                 {
                   props.price ? (
                     <>
-                    <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text>
-                    {/* <Text style={{textAlign:'center'}}>{seller.username}</Text> */}
-                    <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.price}</Text>
+                      <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text>
+                      <Text style={{textAlign: 'center'}}>{buyer.username}</Text>
+                      <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.price}€</Text>
                     </>
                   ) :
                   (
-                    <>
-                    {/* <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text> */}
                     <Text style={{color:'red', textAlign:'center'}}>Aucune enchère</Text>
-                    </>
                   )
                 }
-                <Text>{props.price}</Text>
               </View>
             </View>
             <View style={{flex: 5}}>
@@ -167,6 +171,7 @@ const Auction = (props) => {
                   <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.price}</Text>
                     <Text style={{color: "red"}}>L'enchère doit être supérieure à l'actuelle</Text>
                     <TextInput
+                    keyboardType="numeric"
                     placeholder="Prix"
                     onChangeText={(val) => onChangePrice(val)}
                     />
@@ -174,16 +179,19 @@ const Auction = (props) => {
                 ) : (
                   <TextInput
                   placeholder="Prix"
+                  keyboardType="numeric"
                   onChangeText={(val) => onChangePrice(val)}
                   />
                 )
             }
-            <TouchableOpacity onPress={() => handleSubmit()} >
-              <Text>Envoyer</Text>
-            </TouchableOpacity>
-            <Pressable onPress={() => setModalVisible(!modalVisible)}>
-              <Text>Fermer</Text>
-            </Pressable>
+            <Button 
+              onPress={() => handleSubmit()}
+              title="Envoyer"
+            />
+            <Button 
+              onPress={() => setModalVisible(!modalVisible)}
+              title="Fermer"
+            />
             </View>
           </View>
         </Modal>
@@ -203,6 +211,7 @@ const styles = StyleSheet.create({
       fontSize: 32,
     },
     modal: {
+      paddingTop: 50,
       backgroundColor: '#dedede',
       flex: 1,
       justifyContent: 'center',

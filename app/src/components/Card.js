@@ -8,6 +8,7 @@ import {
   View, 
   TextInput, 
   Image,
+  Button,
   TouchableOpacity
 } from 'react-native';
 import AuctionService from '../../services/AuctionService.js';
@@ -16,7 +17,7 @@ import AuctionService from '../../services/AuctionService.js';
 const ItemCard = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
-  const device = '192.168.1.36';
+  const device = '192.168.1.8';
 
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
@@ -30,6 +31,9 @@ const ItemCard = (props) => {
     }    
 
     AuctionService.createAuction(data)
+    .then(() => {
+      setModalVisible(false)
+    })
     .catch((err) => {
       console.log(err)
     })
@@ -61,14 +65,17 @@ const ItemCard = (props) => {
           <TextInput
             placeholder="Prix"
             onChangeText={(val) => onChangePrice(val)}
+            keyboardType="numeric"
           >
           </TextInput>
-          <TouchableOpacity onPress={() => handleSubmit()} >
-            <Text>Envoyer</Text>
-          </TouchableOpacity>
-          <Pressable onPress={() => setModalVisible(!modalVisible)}>
-            <Text>Fermer</Text>
-          </Pressable>
+          <Button
+            onPress={() => handleSubmit()}
+            title="Envoyer"
+          />
+          <Button
+            title="Fermer"
+            onPress={() => setModalVisible(!modalVisible)}
+          />
         </View>
       </Modal>
     </>

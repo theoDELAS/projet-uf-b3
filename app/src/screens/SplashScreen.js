@@ -30,7 +30,7 @@ const SplashScreen = ({navigation}) => {
                 style={styles.footer}
                 animation="fadeInUpBig"
             >
-                <Text style={styles.title}>Dress You're Skills</Text>
+                <Text style={styles.title}>Dress Ur Skills</Text>
                 <Text style={styles.text}>Commencez dès à présent</Text>
                 <View style={styles.button}>
                     <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
@@ -55,7 +55,7 @@ const SplashScreen = ({navigation}) => {
 export default SplashScreen;
 
 const {height} = Dimensions.get("screen");
-const height_logo = height * 0.28;
+const height_logo = height * 0.30;
 
 const styles = StyleSheet.create({
     container: {
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30
     },
     logo: {
-        width: height_logo,
+        width: 350,
         height: height_logo,
     },
     title: {
