@@ -10,6 +10,7 @@ import FavoritesScreen from './FavoritesScreen';
 import PublishScreen from './PublishScreen';
 import MessagesScreen from './MessagesScreen';
 import ProfileScreen from './ProfileScreen';
+import SettingsScreen from './SettingsScreen';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -19,6 +20,7 @@ const FavoritesStack = createStackNavigator();
 const PublishStack = createStackNavigator();
 const MessagesStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+const SettingsStack = createStackNavigator();
 
 const MainTabScreen = () => (
         <Tab.Navigator
@@ -78,6 +80,17 @@ const MainTabScreen = () => (
             tabBarColor: '#dfdfdf',
             tabBarIcon: ({ color }) => (
                 <Icon name="ios-person" color={color} size={26} />
+            ),
+            }}
+        />
+        <Tab.Screen
+            name="Settings"
+            component={SettingsStackScreen}
+            options={{
+            tabBarLabel: false,
+            tabBarColor: '#dfdfdf',
+            tabBarIcon: ({ color }) => (
+                <Icon name="ios-settings" color={color} size={26} />
             ),
             }}
         />
@@ -214,4 +227,30 @@ const ProfileStackScreen = ({navigation}) => (
       )
     }} />
   </ProfileStack.Navigator>
+);
+
+const SettingsStackScreen = ({navigation}) => (
+  <SettingsStack.Navigator screenOptions={{
+    headerStyle: {
+      backgroundColor: '#dfdfdf'
+    },
+    headerTintColor: "#fff",
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    }
+  }}>
+    <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen} options={{
+      title:'Profile',
+      headerLeft: () => (
+        <Icon.Button 
+          name="ios-menu" 
+          size={25} 
+          backgroundColor="#dfdfdf" 
+          onPress={() => {
+            navigation.openDrawer()
+          }
+        }></Icon.Button>
+      )
+    }} />
+  </SettingsStack.Navigator>
 );

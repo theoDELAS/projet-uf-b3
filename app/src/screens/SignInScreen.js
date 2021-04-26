@@ -24,7 +24,7 @@ const SignInScreen = ({navigation}) => {
 
     const [inventory, setInventory] = useState({});
     const [products, setProducts] = useState({});
-    const device = '192.168.1.36';
+    const device = '192.168.1.8';
     const [data, setData] = useState({
         username: '',
         password: '',
@@ -84,9 +84,10 @@ const SignInScreen = ({navigation}) => {
             ]);
             return;
         }
-
+        
         axios.get(
             `http://${device}:8000/api/users`
+<<<<<<< HEAD
           ).then(res => {
             const users = res.data['hydra:member'];
             const foundUser = users.filter( item => {
@@ -137,11 +138,23 @@ const SignInScreen = ({navigation}) => {
                 //     }).catch(err => console.log(err));
                 // })
             })
+=======
+            ).then(res => {
+                const users = res.data['hydra:member'];
+                const foundUser = users.filter( item => {
+                    return userName === item.username // && password === item.password
+                });
+                if (foundUser.length === 0) {
+                    Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
+                        {text: 'Ok'}
+                    ]);
+                    return;
+                }
+            signIn(foundUser);
+>>>>>>> b6b0109b6e37b2c94a8e66cec29b129555e507ad
           }).catch(err => {
             console.log(err.message);
         });
-        
-
     }
 
     return(

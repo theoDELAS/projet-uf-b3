@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const local = 'localhost'
-const device = '192.168.1.36' 
+const device = '192.168.1.8' 
 
 class UserService {
     login(data) {
@@ -18,6 +18,10 @@ class UserService {
 
     getInventory() {
         return axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`)
+    }
+
+    updateUser(id, data) {
+        return axios.patch(`http://${device}:8000/api/users/${id}`, data)
     }
 }
 

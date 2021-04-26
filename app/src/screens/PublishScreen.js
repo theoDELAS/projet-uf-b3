@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useReducer, useMemo } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ActivityIndicator, Animated, Pressable, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ActivityIndicator, ScrollView, Button } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ItemCard from '../components/Card';
 
@@ -56,6 +56,7 @@ const PublishScreen = ({navigation}) => {
             ) : (
               <View style={styles.noDataCntnr}>
                 <Text style={styles.noDataText}>Vous n'avez aucun skin à vendre</Text>
+                <Button title="Vérifiez que vous avez bien renseigné votre identifiant Steam ici" onPress={() => navigation.navigate("SettingsScreen")} />
               </View>
             )
         )
