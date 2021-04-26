@@ -43,6 +43,16 @@ class Auction
      */
     private $buyer;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isAccepted;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $initialPrice;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +102,30 @@ class Auction
     public function setBuyer(?User $buyer): self
     {
         $this->buyer = $buyer;
+
+        return $this;
+    }
+
+    public function getIsAccepted(): ?bool
+    {
+        return $this->isAccepted;
+    }
+
+    public function setIsAccepted(?bool $isAccepted): self
+    {
+        $this->isAccepted = $isAccepted;
+
+        return $this;
+    }
+
+    public function getInitialPrice(): ?float
+    {
+        return $this->initialPrice;
+    }
+
+    public function setInitialPrice(?float $initialPrice): self
+    {
+        $this->initialPrice = $initialPrice;
 
         return $this;
     }

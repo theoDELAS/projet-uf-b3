@@ -21,18 +21,21 @@ import axios from 'axios';
 // const image = { uri: "https://reactjs.org/logo-og.png" };
 const Auction = (props) => {
   const [product, setProduct] = useState([])
+  const [seller, setSeller] = useState()
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
   const [isValid, setIsValid] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-      getProduct()
+      getProduct(),
+      getSeller()
   }, [])
 
   const getProduct = async () => {
     ProductService.getProduct(props.itemId.match(/(\d+)/))
     .then(response => {
+      // console.log(response.data);
         setProduct(response.data)
     })
     .then(() => {
@@ -43,13 +46,26 @@ const Auction = (props) => {
     })
   }
 
+  const getSeller = async () => {
+    UserService.getOne(props.sellerId.match(/(\d+)/)[0])
+    .then(response => {
+      console.log('A')
+      console.log(response.data)
+      setSeller(response.data)
+    })
+  } 
+
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
   }
 
+  // console.log('A');
+  // console.log(props.sellerId.match(/(\d+)/)[0])
+
   const handleSubmit = () => {
     const data = {
       price: price,
+      buyer: props.userId
     }
     
     if(price > props.price) {

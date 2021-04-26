@@ -26,7 +26,7 @@ const ItemCard = (props) => {
   const handleSubmit = () => {
     const data = {
       product: `http://${device}:8000/api/products/${props.itemId}`,
-      price: price,
+      initialPrice: price,
       seller: `http://${device}:8000/api/users/${props.userId}`,
     }    
 

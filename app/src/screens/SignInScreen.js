@@ -32,25 +32,9 @@ const SignInScreen = ({navigation}) => {
         check_textInputChange: false,
         secureTextEntry: true,
         isValidUser: true,
-        isValidPassword: true,
+        // isValidPassword: true,
     });
 
-    const state = {
-        isLoading: true
-    }
-
-    const componentDidMount = () => {
-        _isMounted = true
-
-        axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`).then(response => {
-            if (_isMounted) {
-            }
-        })        
-    }
-
-    const componentWillUnmount = () => {
-        _isMounted = false;
-    }
     // useEffect(() => {
     //     getInventory();
     // }, [])
@@ -107,13 +91,13 @@ const SignInScreen = ({navigation}) => {
             setData({
                 ...data,
                 password: val,
-                isValidPassword: true,
+                // isValidPassword: true,
             });
         } else {
             setData({
                 ...data,
                 password: val,
-                isValidPassword: false,
+                // isValidPassword: false,
             });
         }
     }
@@ -140,12 +124,12 @@ const SignInScreen = ({navigation}) => {
             const foundUser = users.filter( item => {
                 return userName === item.username // && password === item.password
             });
-            if (foundUser.length === 0) {
-                Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
-                    {text: 'Ok'}
-                ]);
-                return;
-            }
+            // if (foundUser.length === 0) {
+            //     Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
+            //         {text: 'Ok'}
+            //     ]);
+            //     return;
+            // }
             signIn(foundUser);
             const userid = parseInt(foundUser[0].id)
             // try {

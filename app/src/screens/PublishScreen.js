@@ -16,6 +16,7 @@ const PublishScreen = ({navigation}) => {
   }, [])
 
 
+
   const getAllProducts = async () => {
     try {
       userId = await AsyncStorage.getItem('userId');
@@ -34,6 +35,8 @@ const PublishScreen = ({navigation}) => {
       console.log('Impossible de récupérer les skins dans l\'inventaire de l\'utilisateur : ', e);
     })
   }
+
+  console.log(userProducts);
   
   return (
     <View style={styles.container}>
