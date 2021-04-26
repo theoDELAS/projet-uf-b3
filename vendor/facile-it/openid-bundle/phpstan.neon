@@ -1,0 +1,11 @@
+parameters:
+    level: 7
+    paths:
+        - src
+    ignoreErrors:
+         - "/Call to function method_exists.. with 'Symfony.+' and 'getRootNode' will always evaluate to false./"
+         - '/^Cannot call method defaultValue\(\) on Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\|null\.$/'
+
+includes:
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+	- vendor/jangregor/phpstan-prophecy/src/extension.neon
