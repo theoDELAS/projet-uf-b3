@@ -61,6 +61,11 @@ class Product
     private $classId;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $color;
+
+    /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
@@ -168,6 +173,18 @@ class Product
     public function setClassId(?string $classId): self
     {
         $this->classId = $classId;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

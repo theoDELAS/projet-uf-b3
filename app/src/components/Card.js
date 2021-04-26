@@ -7,6 +7,7 @@ import {
   Pressable, 
   View, 
   TextInput, 
+  Image,
   TouchableOpacity
 } from 'react-native';
 import AuctionService from '../../services/AuctionService.js';
@@ -15,7 +16,7 @@ import AuctionService from '../../services/AuctionService.js';
 const ItemCard = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [price, setPrice] = useState(0)
-  const device = '172.20.10.5';
+  const device = '192.168.1.36';
 
   const onChangePrice = (data) => {
     setPrice(parseInt(data));
@@ -38,6 +39,10 @@ const ItemCard = (props) => {
     <>
       <Pressable onPress={() => setModalVisible(true)}>
         <Animated.View style={styles.item}>
+          <Image
+              style={styles.logo}
+              source={{uri: `http://cdn.steamcommunity.com/economy/image/${props.image}`}}
+            />
             <Text style={styles.title}>{props.title}</Text>
         </Animated.View>
       </Pressable>
@@ -76,6 +81,7 @@ const styles = StyleSheet.create({
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
+      borderRadius: 10
     },
     title: {
       fontSize: 32,
@@ -85,7 +91,12 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center'
-    }
+    },
+    logo: {
+      resizeMode: 'contain',
+      width: '100%',
+      height: 120,
+    },
   });
 
 export default ItemCard;

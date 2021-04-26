@@ -22,50 +22,17 @@ import slugify from 'slugify'
 
 const SignInScreen = ({navigation}) => {
 
-    const _isMounted = false;
-
     const [inventory, setInventory] = useState({});
     const [products, setProducts] = useState({});
-    const device = '172.20.10.5';
+    const device = '192.168.1.36';
     const [data, setData] = useState({
         username: '',
         password: '',
         check_textInputChange: false,
         secureTextEntry: true,
         isValidUser: true,
-        // isValidPassword: true,
+        isValidPassword: true,
     });
-
-    // useEffect(() => {
-    //     getInventory();
-    // }, [])
-
-    // const getInventory = () => {
-    //     console.log('azert :');
-        // UserService.getInventory()
-        //     .then(res => {
-        //         console.log(res)
-        //     console.log('inventory')
-        //     console.log(inventory)
-        //     const inventory = res.data
-        //     const result = []
-        //     for(const test in inventory.rgDescriptions) {
-        //         const tried = inventory.rgDescriptions[test]
-        //         result.push(tried)
-        //         for(let index = 0; index < result.length; index++) {
-        //             axios.post('/api/products', {
-        //                 name: tried.market_hash_name,
-        //                 image: tried.icon_url
-        //             })
-        //         }
-        //         if (!result) {
-        //         console.log("ERROR")
-        //         } else {
-        //         setInventory(result)
-        //         }
-        //     }
-        // }, [])
-    // }
 
     const { signIn } = React.useContext(AuthContext);
 
@@ -92,13 +59,13 @@ const SignInScreen = ({navigation}) => {
             setData({
                 ...data,
                 password: val,
-                // isValidPassword: true,
+                isValidPassword: true,
             });
         } else {
             setData({
                 ...data,
                 password: val,
-                // isValidPassword: false,
+                isValidPassword: false,
             });
         }
     }
@@ -123,27 +90,18 @@ const SignInScreen = ({navigation}) => {
           ).then(res => {
             const users = res.data['hydra:member'];
             const foundUser = users.filter( item => {
-                return userName === item.username// && password === item.password
+                return userName === item.username // && password === item.password
             });
-            // if (foundUser.length === 0) {
-            //     Alert.alert('Utilisateur introuvable', 'Username ou mot de passe incorrect', [
-            //         {text: 'Ok'}
-            //     ]);
-            //     return;
-            // }
             signIn(foundUser);
             console.log("FOUNDUSER")
-            console.log(parseInt(foundUser[0].id))
-            console.log(Number.isInteger(parseInt(foundUser[0].id)))
-            console.log('yes');
-            const userid = parseInt(foundUser[0].id)
+            console.log(foundUser)
+            // console.log(parseInt(foundUser[0].id))
+            // console.log(Number.isInteger(parseInt(foundUser[0].id)))
+            // console.log('yes');
+            // const userid = parseInt(foundUser[0].id)
             // try {
                 axios.get(`https://steamcommunity.com/id/sheguey667/inventory/json/730/2`)
                 .then(res => {
-                console.log('ah')
-                // console.log(res)
-            //     console.log('inventory')
-            //     console.log(inventory)
                 const inventory = res.data
                 const result = []
                 for(const test in inventory.rgDescriptions) {
@@ -161,19 +119,12 @@ const SignInScreen = ({navigation}) => {
                         description: "ndienfiq",
                         name: item.market_hash_name,
                         user: `http://${device}:8000/api/users/${foundUser[0].id}`,
-                        slug: slugify(item.market_hash_name, {
-                            replacement: '-',
-                            remove: '|',
-                            lower: true
-                        }),
                         image: item.icon_url
                     }).then((reponse) => {
                         console.log("OK")
                     }).catch(err => console.log(err));
                 })
             })
-            
-            
           }).catch(err => {
             console.log(err.message);
         });

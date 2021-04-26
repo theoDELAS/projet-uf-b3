@@ -16,7 +16,7 @@ import axios from 'axios';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-  const device = '172.20.10.5'
+  const device = '192.168.1.36'
 
   const initialLoginState = {
     isLoading: true,
@@ -68,7 +68,8 @@ const App = () => {
     signIn: async(foundUser) => {
       // setUserToken('ojhb');
       // setIsLoading(false);
-      
+      console.log("AAAAAAAAAAAA");
+      console.log(foundUser)
       const userId = foundUser[0].id;
       const userToken = String(foundUser[0].token);
       const userName = foundUser[0].username;

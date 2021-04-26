@@ -11,12 +11,12 @@ const ProfileScreen = ({navigation}) => {
   const [price, setPrice] = useState(0);
   const [buyer, setBuyer] = useState();
   const [isLoading, setIsLoading] = useState(true)
-  const device = '172.20.10.5';
+  const device = '192.168.1.36';
   let userId = 0;
 
   useEffect(() => {
     getAllAuctions();
-  }, [])
+  }, [userAuctions])
 
   const onChangePrice = (val) => {
     setPrice(val);
@@ -26,16 +26,14 @@ const ProfileScreen = ({navigation}) => {
     try {
       userId = await AsyncStorage.getItem('userId');
     } catch {
-      console.log(userId)
       console.log('error');
     }
 
     await axios.get(`http://${device}:8000/api/auctions?seller=${userId}`)
     .then(res => {
-      // console.log(res.data['hydra:member'])
       setUserAuctions(res.data['hydra:member'])
       res.data['hydra:member'].map(test => {
-        setPrice(test.price)
+        setPrice(test.initialPrice)
       })
     })
     .then(() => {
@@ -50,8 +48,8 @@ const ProfileScreen = ({navigation}) => {
     <View style={styles.container}>
       {
         isLoading ? (
-          <View>
-            <ActivityIndicator size="large" />
+          <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+            <ActivityIndicator size="large" color="#999999" />
           </View>
         ) : (
           userAuctions.length > 0 ? (
@@ -60,7 +58,7 @@ const ProfileScreen = ({navigation}) => {
                 {
                   userAuctions.map((item, index) => {
                     return (
-                      <AuctionCard key={index} price={item.price} product={item.product} buyer={item.buyer} />
+                      <AuctionCard key={index} price={item.initialPrice} product={item.product} buyer={item.buyer} />
                     )
                   })
                 }
