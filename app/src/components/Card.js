@@ -11,6 +11,7 @@ import {
   Button,
   TouchableOpacity
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuctionService from '../../services/AuctionService.js';
 
 // const image = { uri: "https://reactjs.org/logo-og.png" };

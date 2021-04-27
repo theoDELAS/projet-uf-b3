@@ -30,7 +30,7 @@ const Auction = (props) => {
     getSeller(),
     getProduct(),
     getBuyer()
-  }, [])
+  }, [props.buyer])
 
   const getProduct = async () => {
     ProductService.getProduct(props.itemId.match(/(\d+)/))
@@ -76,7 +76,7 @@ const Auction = (props) => {
       buyer: `http://172.20.10.2:8000/api/users/${props.userId}`
     }
     
-    if(price > props.initialPrice) {
+    if(price > props.initialPrice && price > props.price) {
         setIsValid(true)
         AuctionService.updateAuction(props.auctionId, data)
         .then(() => {
@@ -100,25 +100,36 @@ const Auction = (props) => {
       <View>
         <Pressable onPress={() => setModalVisible(true)}>
           <Animated.View style={styles.item}>
-              <Text style={styles.title}>{product.title}</Text>
+          <Image style={{width: "100%", height: 170, borderWidth: 1, borderColor: "red"}} source={{uri:`http://cdn.steamcommunity.com/economy/image/${product.image}`}} />
+              <Text style={styles.title}>{product.name}</Text>
               <View style={{flexDirection: 'row',  justifyContent: "space-around"}}>
                 <View>
                 {
                   seller ? (
-                  <Text>Vendeur : {seller.username}</Text>
+                    <>
+                    <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Première enchère</Text>
+                    <Text>{seller.username}</Text>
+                    </>
                   )
                   :
                   null
                 }
-                  <Text>{props.initialPrice}€</Text>
+                  <Text style={{fontWeight: 'bold'}}>{props.initialPrice}€</Text>
                 </View>
                 {
                   buyer ? (
-                    <View>
+                  <View>
+                    <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text>
                     <Text>{buyer.username}</Text>
-                    <Text><Text>{props.price}€</Text></Text>
+                    <Text style={{fontWeight: 'bold'}}>{props.price} €</Text>
                   </View>
-                  ) : ( null)
+                  ) : ( 
+                    <View>
+                    <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'red'}}>Pas d'enchère en cours</Text>
+                    {/* <Text>{buyer.username}</Text>
+                    <Text style={{fontWeight: 'bold'}}>{props.price} €</Text> */}
+                  </View>
+                  )
                 }
               </View>
           </Animated.View>
@@ -170,19 +181,12 @@ const Auction = (props) => {
                 }
               </View>
             </View>
-            <View style={{flex: 5}}>
+            <View style={{flex: 5, marginTop: 50}}>
             {
                 !isValid ? (
                   <>
-                  <Text style={{textTransform: 'uppercase', textAlign:'center', fontWeight:'bold', color:'#F2994A'}}>Enchère en cours</Text>
-                  {
-                    buyer ?
-                    <Text style={{textAlign:'center'}}>{buyer.username}</Text>
-                    :
-                    null
-                  }
-                  <Text style={{fontWeight:'bold', textAlign:'center'}}>{props.price}</Text>
-                    <Text style={{color: "red"}}>L'enchère doit être supérieure à l'actuelle</Text>
+                  <View><Text style={{color: "red"}}>L'enchère doit être supérieure à l'actuelle</Text></View>
+                    
                     <TextInput
                     keyboardType="numeric"
                     placeholder="Prix"
@@ -190,18 +194,22 @@ const Auction = (props) => {
                     />
                   </>
                 ) : (
+                  <>
                   <TextInput
                   placeholder="Prix"
                   keyboardType="numeric"
                   onChangeText={(val) => onChangePrice(val)}
                   />
+                  </>
                 )
             }
             <Button 
+              color="#2D9CDB"
               onPress={() => handleSubmit()}
               title="Envoyer"
             />
             <Button 
+              color="#F2994A"
               onPress={() => setModalVisible(!modalVisible)}
               title="Fermer"
             />

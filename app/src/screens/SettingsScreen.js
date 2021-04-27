@@ -7,7 +7,7 @@ import axios from 'axios'
 
 const SettingsScreen = ({navigation}) => {
   const [steamName, setSteamName] = useState()
-  const device = '192.168.1.8'
+  const device = '192.168.1.36'
 
   useEffect(() => {
     getSteamName()    

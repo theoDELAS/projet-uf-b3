@@ -24,7 +24,7 @@ const SignInScreen = ({navigation}) => {
 
     const [inventory, setInventory] = useState({});
     const [products, setProducts] = useState({});
-    const device = '192.168.1.8';
+    const device = '192.168.1.36';
     const [data, setData] = useState({
         username: '',
         password: '',

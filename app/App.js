@@ -16,7 +16,7 @@ import axios from 'axios';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-  const device = '192.168.1.8'
+  const device = '192.168.1.36'
 
   const initialLoginState = {
     isLoading: true,
@@ -85,10 +85,13 @@ const App = () => {
       dispatch({type: 'LOGIN', id: userName, token: userToken});
     },
     signOut: async() => {
-      // setUserToken(null);
-      // setIsLoading(false);
       try {
         await AsyncStorage.removeItem('userToken')
+      } catch (e) {
+        console.log(e);
+      }
+      try {
+        await AsyncStorage.removeItem('userId')
       } catch (e) {
         console.log(e);
       }
@@ -99,9 +102,20 @@ const App = () => {
         await axios.post(
           `http://${device}:8000/api/users`,
           userLogs
-        ).then(res => {
-          const userToken = userLogs['token'];          
-          AsyncStorage.setItem('userToken', userToken)
+        ).then(async res => {
+          const userToken = userLogs['token'];
+          const id = res.data.id;
+          try {
+            await AsyncStorage.setItem('userToken', userToken)
+          } catch (e) {
+            console.log(e);
+          }
+          try {
+            await AsyncStorage.setItem('userId', id.toString())
+          } catch (e) {
+            console.log(e);
+          }
+          
           dispatch({type: 'REGISTER', id: userLogs['username'], token: userToken});
         }).catch(err => {
           console.log(err.message);
@@ -109,9 +123,6 @@ const App = () => {
       } catch (e) {
         console.log(e);
       }
-      
-      // setUserToken('erfg');
-      // setIsLoading(false);
     },
   }), [])
 
